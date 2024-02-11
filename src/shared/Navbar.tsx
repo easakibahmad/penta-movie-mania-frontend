@@ -1,55 +1,43 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link } from "react-router-dom";
-import {
-  FaHome,
-  FaBookmark,
-  FaFilm,
-  FaStar,
-  FaTheaterMasks,
-  FaLaugh,
-  FaHeart,
-} from "react-icons/fa";
-import { Menu, Dropdown, DatePicker } from "antd";
+import { FaHome, FaBookmark, FaFilm } from "react-icons/fa";
+import { Dropdown, DatePicker } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import { useState } from "react";
+import {
+  dropdownMenuNav,
+  twoMonthsAgo,
+  yesterday,
+} from "./nav_components/NavUtils";
 const { RangePicker } = DatePicker;
+import logo from "../assets/logo.png";
+import { SearchOutlined } from '@ant-design/icons';
 
 const Navbar = () => {
   const navItemsStyle = "flex items-center";
   const linkHoverClass = "hover:text-blue-500"; // Define a CSS class for link hover effect
+
   const [selectedDateRange, setSelectedDateRange] = useState([
-    new Date("2024-01-01"),
-    new Date("2024-01-01"),
+    twoMonthsAgo,
+    yesterday,
   ]);
 
-  const handleDateRangeChange = (dates: [Date, Date]) => {
+  const handleDateRangeChange = (dates: any) => {
     setSelectedDateRange(dates);
-    // console.log("Selected Date Range:", dates[0].$d, dates[1].$d);
+    console.log("Selected Date Range:", dates[0].$d, dates[1].$d);
   };
 
   console.log(selectedDateRange);
 
-  const menu = (
-    <Menu style={{ borderRadius: 0, marginTop: "15px" }}>
-      <Menu.Item key="1" icon={<FaStar />}>
-        <Link to="/genre/action">Action</Link>
-      </Menu.Item>
-      <Menu.Item key="2" icon={<FaTheaterMasks />}>
-        <Link to="/genre/adventure">Adventure</Link>
-      </Menu.Item>
-      <Menu.Item key="3" icon={<FaLaugh />}>
-        <Link to="/genre/comedy">Comedy</Link>
-      </Menu.Item>
-      <Menu.Item key="4" icon={<FaHeart />}>
-        <Link to="/genre/drama">Drama</Link>
-      </Menu.Item>
-    </Menu>
-  );
-
   return (
-    <nav className="bg-black text-white flex items-center justify-between gap-8 h-16 px-4">
+    <nav className="bg-black text-white flex items-center justify-between gap-8 px-4" style={{height: "76px"}}>
       <ul className="flex items-center gap-4">
-        <Link to="/movie" className="text-2xl font-bold">
-          Penta Movie Mania
+        <Link
+          to="/movie"
+          className="text-2xl mr-16 font-bold flex items-center gap-2"
+        >
+          <img src={logo} className="w-12 h-12 rounded-full" alt="logo" />
+          <span>Penta Movie Mania</span>
         </Link>
         <li>
           <Link to="/movie" className={`${navItemsStyle} ${linkHoverClass}`}>
@@ -57,15 +45,7 @@ const Navbar = () => {
           </Link>
         </li>
         <li>
-          <Link
-            to="/watchlist"
-            className={`${navItemsStyle} ${linkHoverClass}`}
-          >
-            <FaBookmark className="mr-2" /> Watchlist
-          </Link>
-        </li>
-        <li>
-          <Dropdown overlay={menu}>
+          <Dropdown overlay={dropdownMenuNav}>
             <a
               className={`ant-dropdown-link ${navItemsStyle} ${linkHoverClass}`}
               onClick={(e) => e.preventDefault()}
@@ -75,7 +55,18 @@ const Navbar = () => {
             </a>
           </Dropdown>
         </li>
+        <li>
+          <Link
+            to="/watchlist"
+            className={`${navItemsStyle} ${linkHoverClass}`}
+          >
+            <FaBookmark className="mr-2" /> Watchlist
+          </Link>
+        </li>
       </ul>
+      <div className="grid grid-cols-1"><span className="text-sm flex items-center">
+        <SearchOutlined className="mr-1" /> Search Movies by Date Range
+      </span>
       <RangePicker
         className="text-blue-500"
         style={{
@@ -85,7 +76,7 @@ const Navbar = () => {
         picker="date"
         placeholder={["Start Date", "End Date"]}
         onChange={handleDateRangeChange}
-      />
+      /></div>
     </nav>
   );
 };
