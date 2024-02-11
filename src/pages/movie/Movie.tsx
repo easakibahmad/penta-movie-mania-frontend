@@ -11,6 +11,7 @@ const Movie = () => {
     const genreId = 28;
     const startDate = new Date("2024-01-01");
     const endDate = new Date("2024-02-29");
+    // console.log(startDate, endDate);
 
     // Fetch movies by genre and release date range
     getMoviesByGenre({ genreId, startDate, endDate });
