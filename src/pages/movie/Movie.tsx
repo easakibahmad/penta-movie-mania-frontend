@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect } from "react";
 import { useGetMoviesByGenreMutation } from "../../redux/features/movies_by_genre/moviesByGenre";
 import { twoMonthsAgo, yesterday } from "../../shared/nav_components/NavUtils";
@@ -32,13 +33,22 @@ const Movie = () => {
   }, [data]);
 
   return (
-    <div>
+    <div className="px-4">
       {isLoading ? (
         <div>Loading...</div>
       ) : (
-        <div>This is the movie front page</div>
-      ) }
-      <MovieCard></MovieCard>
+        <div className="grid grid-cols-5 gap-6">
+          {data &&
+            data.results &&
+            data.results.map((movie:any) => (
+              <MovieCard
+                key={movie.id}
+                title={movie.title}
+                posterPath={movie.poster_path}
+              />
+            ))}
+        </div>
+      )}
     </div>
   );
 };
