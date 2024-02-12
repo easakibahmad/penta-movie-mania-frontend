@@ -30,7 +30,7 @@ const Navbar = () => {
   console.log(selectedDateRange);
 
   return (
-    <nav className="bg-black text-white flex items-center justify-between gap-8 px-4" style={{height: "76px"}}>
+    <nav className="bg-black border-b-2 border-yellow-500 text-white flex items-center justify-between gap-8 px-4" style={{height: "74px"}}>
       <ul className="flex items-center gap-4">
         <Link
           to="/movie"

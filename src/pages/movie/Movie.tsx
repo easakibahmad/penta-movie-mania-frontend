@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import { useGetMoviesByGenreMutation } from "../../redux/features/movies_by_genre/moviesByGenre";
+import { twoMonthsAgo, yesterday } from "../../shared/nav_components/NavUtils";
+import MovieCard from "./movie_components/MovieCard";
 
 const Movie = () => {
   // Call the useGetMoviesByGenreMutation hook to fetch movies
@@ -9,8 +11,8 @@ const Movie = () => {
   useEffect(() => {
     // Define the genre ID, start date, and end date for the movie query
     const genreId = 28;
-    const startDate = new Date("2024-01-01");
-    const endDate = new Date("2024-02-29");
+    const startDate = new Date(twoMonthsAgo);
+    const endDate = new Date(yesterday);
     // console.log(startDate, endDate);
 
     // Fetch movies by genre and release date range
@@ -35,7 +37,8 @@ const Movie = () => {
         <div>Loading...</div>
       ) : (
         <div>This is the movie front page</div>
-      )}
+      ) }
+      <MovieCard></MovieCard>
     </div>
   );
 };

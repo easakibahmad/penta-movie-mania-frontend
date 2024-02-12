@@ -34,7 +34,7 @@ const NavDrawer = () => {
   return (
     <>
       <Space
-        className="flex justify-start bg-black py-2 pl-3 gap-6"
+        className="flex justify-start bg-black py-2 pl-3 gap-6 border-b-2 border-yellow-500"
         style={{ color: "#006699" }}
       >
         <span
