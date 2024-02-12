@@ -8,12 +8,12 @@ const MovieCard = ({ title, posterPath }: any) => {
       className="grid rounded-sm overflow-hidden"
       style={{ backgroundColor: "#1a1a1a" }}
     >
-      <div className="transition-transform duration-300 transform scale-100 hover:scale-105">
+      <div className="transition-transform duration-300 text-white transform scale-100 hover:scale-105">
         <Link to="#">
           <img
             src={`https://image.tmdb.org/t/p/w500${posterPath}`}
-            alt=""
-            className="w-full h-76 transition-transform duration-300 transform scale-100 hover:scale-105"
+            alt="ImageNotFound"
+            className="w-full h-72 transition-transform duration-300 transform scale-100 hover:scale-105"
           />
         </Link>
       </div>
