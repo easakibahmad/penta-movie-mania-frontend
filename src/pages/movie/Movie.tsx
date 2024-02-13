@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { twoMonthsAgo, yesterday } from "../../shared/nav_components/NavUtils";
 import MovieCard from "./movie_components/MovieCard";
 import { IMovieData } from "./movie_interface/Types";
 import { useGetAllMoviesInRangeMutation } from "../../redux/features/movies/moviesApi";
 import MovieLoader from "./movie_components/MovieLoader";
 import { ArrowUpOutlined } from "@ant-design/icons";
-
+import MovieGenre from "./movie_components/MovieGenre";
+import { twoMonthsAgo, yesterday } from "../../shared/nav_components/NavUtils";
 
 const Movie = () => {
   // Call the useGetAllMoviesInRangeMutation hook to fetch movies
@@ -102,14 +102,21 @@ const Movie = () => {
 
       {/* Scroll to top button with transition */}
       {backToTopButton && (
-        <button
-          className="fixed top-10 right-1/2 bg-white text-black px-4 py-1 text-sm rounded-full shadow-lg transition-opacity duration-1000 ease-in-out hover:opacity-100"
-          onClick={scrollToTop}
-          style={{ opacity: backToTopButton ? 1 : 0 }}
-        >
-          <ArrowUpOutlined style={{ marginRight: "5px" }} />
-          Back to Top
-        </button>
+        <div className="flex justify-center">
+          <button
+            className="fixed top-10  bg-white text-black px-4 py-1 text-sm rounded-full shadow-lg transition-opacity duration-1000 ease-in-out hover:opacity-100 hover:bg-blue-500 hover:text-white"
+            onClick={scrollToTop}
+            style={{ opacity: backToTopButton ? 1 : 0 }}
+          >
+            <ArrowUpOutlined style={{ marginRight: "5px" }} />
+            Back to Top
+          </button>
+        </div>
+      )}
+      {!loading && (
+        <div className="mt-16">
+          <MovieGenre></MovieGenre>
+        </div>
       )}
     </div>
   );
