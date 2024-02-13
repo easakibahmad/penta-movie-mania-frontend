@@ -4,26 +4,28 @@ import { IMovieData } from "./movie_interface/Types";
 import { useGetAllMoviesInRangeMutation } from "../../redux/features/movies/moviesApi";
 import MovieLoader from "./movie_components/MovieLoader";
 import { ArrowUpOutlined } from "@ant-design/icons";
-import MovieGenre from "./movie_components/MovieGenre";
-import { twoMonthsAgo, yesterday } from "../../shared/nav_components/NavUtils";
+import { RootState } from "../../redux/store";
+import { useSelector } from "react-redux";
+import { formatDateString } from "./movie_utils/utils";
 
 const Movie = () => {
-  // Call the useGetAllMoviesInRangeMutation hook to fetch movies
   const [getAllMoviesInRange, { data, error }] =
-    useGetAllMoviesInRangeMutation();
+    useGetAllMoviesInRangeMutation(); // Call the useGetAllMoviesInRangeMutation hook to fetch movies
 
   const [page, setPage] = useState(1);
   const [loadedData, setLoadedData] = useState<IMovieData[]>([]);
   const [loading, setLoading] = useState(false);
   const [backToTopButton, setBackToTopButton] = useState(false); // State to control visibility of scroll button
 
-  useEffect(() => {
-    const startDate = new Date(twoMonthsAgo);
-    const endDate = new Date(yesterday);
+  const dateRange = useSelector((state: RootState) => state.dateRange);
 
-    // Fetch movies by release date range and page
-    getAllMoviesInRange({ startDate, endDate, page });
-  }, [getAllMoviesInRange, page]);
+  useEffect(() => {
+    const startDate = formatDateString(dateRange.dateRange.startDate);
+    const endDate = formatDateString(dateRange.dateRange.endDate);
+    console.log(startDate, endDate);
+
+    getAllMoviesInRange({ startDate, endDate, page }); // Fetch movies by release date range and page
+  }, [getAllMoviesInRange, page, dateRange]);
 
   useEffect(() => {
     if (error) {
@@ -33,29 +35,28 @@ const Movie = () => {
 
   useEffect(() => {
     if (data && data.results) {
-      // Update loadedData with newly fetched data
-      setLoadedData((prevData) => [...prevData, ...data.results]);
+      setLoadedData((prevData) => [...prevData, ...data.results]); // Update loadedData with newly fetched data
+
       setLoading(false);
     }
   }, [data]);
 
   const handleScroll = () => {
-    // Show/hide back to top button based on scroll position
     const scrollTop =
-      document.documentElement.scrollTop || document.body.scrollTop;
+      document.documentElement.scrollTop || document.body.scrollTop; // Show/hide back to top button based on scroll position
+
     if (scrollTop > 100) {
       setBackToTopButton(true);
     } else {
       setBackToTopButton(false);
     }
 
-    // Load more movies if user reaches bottom
     if (
       window.innerHeight + scrollTop + 1 >=
       document.documentElement.scrollHeight
     ) {
       setLoading(true);
-      setPage((prevPage) => prevPage + 1);
+      setPage((prevPage) => prevPage + 1); // Load more movies if user reaches bottom
     }
   };
 
@@ -66,12 +67,11 @@ const Movie = () => {
     };
   }, []);
 
-  // Scroll to the top when back to button is clicked
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
-    });
+    }); // Scroll to the top when back to button is clicked
   };
 
   return (
@@ -80,27 +80,28 @@ const Movie = () => {
         <div className="h-8 w-1 bg-yellow-400"></div>
         <h1 className="text-xl font-bold">Latest Movies Just For You</h1>
       </div>
-      <div className="flex justify-center">
-        {!loadedData?.length && (
+      {!loadedData?.length && (
+        <div className="flex justify-center">
           <div className="py-10" style={{ height: "100vh" }}>
             <MovieLoader />
           </div>
-        )}
-      </div>
+        </div>
+      )}
       <div className="grid grid-cols-5 gap-6">
-        {loadedData.map((movie: IMovieData) => (
+        {loadedData.map((movie: IMovieData, index: number) => (
           <MovieCard
-            key={movie.id}
+            key={index}
             title={movie.title}
             posterPath={movie.poster_path}
           />
         ))}
       </div>
-      <div className="flex justify-center mt-6">
-        {loading && <MovieLoader />}
-      </div>
+      {loading && (
+        <div className={`flex justify-center mt-8`}>
+          <MovieLoader />
+        </div>
+      )}
 
-      {/* Scroll to top button with transition */}
       {backToTopButton && (
         <div className="flex justify-center">
           <button
@@ -111,11 +112,6 @@ const Movie = () => {
             <ArrowUpOutlined style={{ marginRight: "5px" }} />
             Back to Top
           </button>
-        </div>
-      )}
-      {!loading && (
-        <div className="mt-16">
-          <MovieGenre></MovieGenre>
         </div>
       )}
     </div>

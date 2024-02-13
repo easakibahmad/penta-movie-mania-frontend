@@ -3,31 +3,28 @@ import { Link } from "react-router-dom";
 import { FaHome, FaBookmark, FaFilm } from "react-icons/fa";
 import { Dropdown, DatePicker } from "antd";
 import { DownOutlined } from "@ant-design/icons";
-import { useState } from "react";
-import {
-  dropdownMenuNav,
-  twoMonthsAgo,
-  yesterday,
-} from "./nav_components/NavUtils";
+import { dropdownMenuNav, yesterday } from "./nav_components/NavUtils";
 const { RangePicker } = DatePicker;
 import logo from "../assets/logo.png";
 import { SearchOutlined } from "@ant-design/icons";
+import { setDateRange } from "../redux/features/date_range/dateRangeSlice";
+import { useDispatch } from "react-redux";
 
 const Navbar = () => {
   const navItemsStyle = "flex items-center";
   const linkHoverClass = "hover:text-blue-500"; // Define a CSS class for link hover effect
 
-  const [selectedDateRange, setSelectedDateRange] = useState([
-    twoMonthsAgo,
-    yesterday,
-  ]);
-
+  const dispatch = useDispatch();
   const handleDateRangeChange = (dates: any) => {
-    setSelectedDateRange(dates);
-    console.log("Selected Date Range:", dates[0].$d, dates[1].$d);
+    if (dates && dates.length === 2) {
+      const [startDate, endDate] = dates.map((date: any) => date.toString());
+      dispatch(setDateRange({ startDate, endDate }));
+    }
   };
 
-  console.log(selectedDateRange);
+  const disabledDate = (current: any) => {
+    return current && current > yesterday;
+  };
 
   return (
     <nav
@@ -80,6 +77,7 @@ const Navbar = () => {
           picker="date"
           placeholder={["Start Date", "End Date"]}
           onChange={handleDateRangeChange}
+          disabledDate={disabledDate}
         />
       </div>
     </nav>
