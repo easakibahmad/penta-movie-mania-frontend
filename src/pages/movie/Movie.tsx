@@ -1,29 +1,27 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from "react";
-import { useGetMoviesByGenreMutation } from "../../redux/features/movies_by_genre/moviesByGenre";
 import { twoMonthsAgo, yesterday } from "../../shared/nav_components/NavUtils";
 import MovieCard from "./movie_components/MovieCard";
 import { IMovieData } from "./movie_interface/Types";
+import { useGetAllMoviesInRangeMutation } from "../../redux/features/movies/moviesApi";
 import MovieLoader from "./movie_components/MovieLoader";
 
 const Movie = () => {
-  // Call the useGetMoviesByGenreMutation hook to fetch movies
-  const [getMoviesByGenre, { data, error, isLoading }] =
-    useGetMoviesByGenreMutation();
+  // Call the useGetAllMoviesInRangeMutation hook to fetch movies
+  const [getAllMoviesInRange, { data, error }] =
+    useGetAllMoviesInRangeMutation();
 
   const [page, setPage] = useState(1);
   const [loadedData, setLoadedData] = useState<IMovieData[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Define the genre ID, start date, and end date for the movie query
-    const genreId = 18;
     const startDate = new Date(twoMonthsAgo);
     const endDate = new Date(yesterday);
 
-    // Fetch movies by genre, release date range and page
-    getMoviesByGenre({ genreId, startDate, endDate, page });
-  }, [getMoviesByGenre, page]);
+    // Fetch movies by release date range and page
+    getAllMoviesInRange({ startDate, endDate, page });
+  }, [getAllMoviesInRange, page]);
 
   useEffect(() => {
     if (error) {
@@ -71,8 +69,6 @@ const Movie = () => {
       <div className="flex justify-center mt-6">
         {loading && <MovieLoader />}
       </div>
-
-      {/* )} */}
     </div>
   );
 };
