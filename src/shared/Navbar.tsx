@@ -11,7 +11,7 @@ import {
 } from "./nav_components/NavUtils";
 const { RangePicker } = DatePicker;
 import logo from "../assets/logo.png";
-import { SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined } from "@ant-design/icons";
 
 const Navbar = () => {
   const navItemsStyle = "flex items-center";
@@ -30,7 +30,10 @@ const Navbar = () => {
   console.log(selectedDateRange);
 
   return (
-    <nav className="bg-black border-b-2 border-yellow-500 text-white flex items-center justify-between gap-8 px-4" style={{height: "74px"}}>
+    <nav
+      style={{ backgroundColor: "#36454F	", height: "74px" }}
+      className="  text-white flex items-center justify-between gap-8 px-4"
+    >
       <ul className="flex items-center gap-4">
         <Link
           to="/movie"
@@ -64,19 +67,21 @@ const Navbar = () => {
           </Link>
         </li>
       </ul>
-      <div className="grid grid-cols-1"><span className="text-sm flex items-center">
-        <SearchOutlined className="mr-1" /> Search Movies by Date Range
-      </span>
-      <RangePicker
-        className="text-blue-500"
-        style={{
-          border: "1px solid #ccc",
-          borderRadius: "5px",
-        }}
-        picker="date"
-        placeholder={["Start Date", "End Date"]}
-        onChange={handleDateRangeChange}
-      /></div>
+      <div className="grid grid-cols-1">
+        <span className="text-sm flex items-center">
+          <SearchOutlined className="mr-1" /> Search Movies by Date Range
+        </span>
+        <RangePicker
+          className="text-blue-500"
+          style={{
+            border: "1px solid #ccc",
+            borderRadius: "5px",
+          }}
+          picker="date"
+          placeholder={["Start Date", "End Date"]}
+          onChange={handleDateRangeChange}
+        />
+      </div>
     </nav>
   );
 };

@@ -1,8 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { PlusOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import movieAvatar from "../../../assets/movie.jpg";
 
 const MovieCard = ({ title, posterPath }: any) => {
+  const imagePath = posterPath
+    ? `https://image.tmdb.org/t/p/w500${posterPath}`
+    : movieAvatar;
+
   return (
     <div
       className="grid rounded-sm overflow-hidden"
@@ -11,8 +16,8 @@ const MovieCard = ({ title, posterPath }: any) => {
       <div className="transition-transform duration-300 text-white transform scale-100 hover:scale-105">
         <Link to="#">
           <img
-            src={`https://image.tmdb.org/t/p/w500${posterPath}`}
-            alt="ImageNotFound"
+            src={imagePath}
+            alt={posterPath ? "ImageNotFound" : "DefaultImage"}
             className="w-full h-72 transition-transform duration-300 transform scale-100 hover:scale-105"
           />
         </Link>
