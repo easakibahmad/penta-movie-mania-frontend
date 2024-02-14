@@ -85,13 +85,14 @@ const Movie = () => {
           </div>
         </div>
       )}
-      <div className="grid grid-cols-5 gap-6">
+      <div className="grid grid-cols-6 gap-6">
         {loadedData.map((movie: IMovieData, index: number) => (
           <MovieCard
             key={index}
             title={movie.title}
             posterPath={movie.poster_path}
-            movieId={movie.id}
+            movieId={ movie.id }
+            releaseDate={movie.release_date}
           />
         ))}
       </div>

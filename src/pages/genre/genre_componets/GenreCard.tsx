@@ -3,7 +3,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import movieAvatar from "../../../assets/movie.jpg";
 
-const MovieCard = ({ title, posterPath, movieId ,releaseDate}: any) => {
+const GenreCard = ({ title, posterPath, movieId ,releaseDate}: any) => {
   const imagePath = posterPath
     ? `https://image.tmdb.org/t/p/w500${posterPath}`
     : movieAvatar;
@@ -53,4 +53,4 @@ const MovieCard = ({ title, posterPath, movieId ,releaseDate}: any) => {
   );
 };
 
-export default MovieCard;
+export default GenreCard;

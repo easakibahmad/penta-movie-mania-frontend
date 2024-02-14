@@ -44,13 +44,18 @@ const Navbar = () => {
           </Link>
         </li>
         <li>
+          <Link to="/genre" className={`${navItemsStyle} ${linkHoverClass}`}>
+            <FaFilm className="mr-1" /> Genre
+          </Link>
+        </li>
+        {/* <li>
           <a
             className="ant-dropdown-link flex items-center hover:text-blue-500"
             onClick={(e) => e.preventDefault()}
           >
             <FaFilm className="mr-1" /> Genre
           </a>
-        </li>
+        </li> */}
         <li>
           <Link
             to="/watchlist"

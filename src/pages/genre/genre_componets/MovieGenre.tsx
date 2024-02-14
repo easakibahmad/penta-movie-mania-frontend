@@ -4,15 +4,19 @@ import {
   twoMonthsAgo,
   yesterday,
 } from "../../../shared/nav_components/NavUtils";
-import { IMovieData } from "../movie_interface/Types";
-import MovieCard from "./MovieCard";
+import { IMovieData } from "../../movie/movie_interface/Types";
+import GenreCard from "./GenreCard";
+import MovieLoader from "../../movie/movie_components/MovieLoader";
 
-const MovieGenre = () => {
+type TGenreProps = {
+  genreId: number;
+  genreName: string;
+};
+const MovieGenre = ({ genreId, genreName }: TGenreProps) => {
   const [getMoviesByGenre, { data, error }] = useGetMoviesByGenreMutation();
   const [loadedData, setLoadedData] = useState<IMovieData[]>([]);
 
   useEffect(() => {
-    const genreId = 878; 
     const startDate = new Date(twoMonthsAgo);
     const endDate = new Date(yesterday);
 
@@ -29,7 +33,7 @@ const MovieGenre = () => {
     if (data && data.results) {
       const shuffledResults = shuffleArray(data.results); // Shuffle the array of movie results
 
-      const limitedResults = shuffledResults.slice(0, 5); // Select the first five shuffled movies
+      const limitedResults = shuffledResults.slice(0, 6); // Select the first five shuffled movies
       setLoadedData(limitedResults);
     }
   }, [data]);
@@ -50,14 +54,23 @@ const MovieGenre = () => {
     <div className="px-4 pb-10 pt-6 bg-black text-white">
       <div className="flex gap-2 items-center mb-6">
         <div className="h-8 w-1 bg-yellow-400"></div>
-        <h1 className="text-xl font-bold">Genre</h1>
+        <h1 className="text-xl font-bold">Lates {genreName} Movies</h1>
       </div>
-      <div className="grid grid-cols-5 gap-6">
-        {loadedData.map((movie: IMovieData) => (
-          <MovieCard
-            key={movie.id}
+      {!loadedData?.length && (
+        <div className="flex justify-center">
+          <div className="py-10" style={{ height: "100vh" }}>
+            <MovieLoader />
+          </div>
+        </div>
+      )}
+      <div className="grid grid-cols-6 gap-6">
+        {loadedData.map((movie: IMovieData, index: number) => (
+          <GenreCard
+            key={index}
             title={movie.title}
             posterPath={movie.poster_path}
+            movieId={movie.id}
+            releaseDate={movie.release_date}
           />
         ))}
       </div>

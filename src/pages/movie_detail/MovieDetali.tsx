@@ -8,6 +8,9 @@ import MovieLoader from "../movie/movie_components/MovieLoader";
 import NotFoundMessage from "./movie_detail_component/NotFoundMessage";
 import CastCard from "./movie_detail_component/CastCard";
 import TitleDetails from "./movie_detail_component/TitleDetails";
+import Movie from "../movie/Movie";
+import { StarOutlined } from "@ant-design/icons";
+import React from "react";
 
 const MovieDetail = () => {
   const { movieId } = useParams();
@@ -61,15 +64,26 @@ const MovieDetail = () => {
             </a>
           </p>
           <p className="flex justify-start gap-4">
-            <span className="font-bold">Rating:</span> {movie.vote_average}
+            <span className="font-bold">Rating:</span>{" "}
+            <span>
+              <span className="text-yellow-500 mr-1">
+                <StarOutlined />
+              </span>
+              {Math.round(movie.vote_average * 10) / 10}
+            </span>
           </p>
           {movie.genres && (
             <div className="flex justify-start gap-4">
               <h3 className="font-bold">Genres:</h3>
-              <ul className="flex justify-start gap-3">
-                {movie.genres.map((genre: { id: number; name: string }) => (
-                  <li key={genre.id}>{genre.name}</li>
-                ))}
+              <ul className="flex justify-start gap-2">
+                {movie.genres.map(
+                  (genre: { id: number; name: string }, index: number) => (
+                    <React.Fragment key={genre.id}>
+                      <li>{genre.name}</li>
+                      {index !== movie.genres.length - 1 && <span>|</span>}
+                    </React.Fragment>
+                  )
+                )}
               </ul>
             </div>
           )}
@@ -80,7 +94,6 @@ const MovieDetail = () => {
         <TitleDetails title="Meet the Cast"></TitleDetails>
         <div className="grid grid-cols-4 gap-6">
           {credits.cast.map((item: any, index: any) => {
-            // if (item.original_name && item.character && item.profile_path) {
             return (
               <CastCard
                 key={index}
@@ -89,9 +102,6 @@ const MovieDetail = () => {
                 imageUrl={item.profile_path}
               />
             );
-            // } else {
-            //   return null;
-            // }
           })}
         </div>
       </div>
@@ -99,11 +109,6 @@ const MovieDetail = () => {
         <TitleDetails title="Meet the Crew"></TitleDetails>
         <div className="grid grid-cols-4 gap-6">
           {credits.crew.map((item: any, index: any) => {
-            // if (
-            // item.original_name &&
-            // item.known_for_department &&
-            // item.profile_path
-            // ) {
             return (
               <CastCard
                 key={index}
@@ -112,12 +117,10 @@ const MovieDetail = () => {
                 imageUrl={item.profile_path}
               />
             );
-            // } else {
-            //   return null;
-            // }
           })}
         </div>
       </div>
+      <Movie></Movie>
     </div>
   );
 };
