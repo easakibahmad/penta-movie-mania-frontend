@@ -4,9 +4,9 @@ import {
   twoMonthsAgo,
   yesterday,
 } from "../../../shared/nav_components/NavUtils";
-import { IMovieData } from "../../movie/movie_interface/Types";
 import GenreCard from "./GenreCard";
-import MovieLoader from "../../movie/movie_components/MovieLoader";
+import MovieLoader from "../../../components/MovieLoader";
+import { IMovieData } from "../../../types/Types";
 
 type TGenreProps = {
   genreId: number;
@@ -51,10 +51,10 @@ const MovieGenre = ({ genreId, genreName }: TGenreProps) => {
   };
 
   return (
-    <div className="px-4 pb-10 pt-6 bg-black text-white">
+    <div className="px-4 pb-6 pt-6 bg-black text-white">
       <div className="flex gap-2 items-center mb-6">
         <div className="h-8 w-1 bg-yellow-400"></div>
-        <h1 className="text-xl font-bold">Lates {genreName} Movies</h1>
+        <h1 className="text-xl font-bold">Latest {genreName} </h1>
       </div>
       {!loadedData?.length && (
         <div className="flex justify-center">

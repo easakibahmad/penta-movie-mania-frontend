@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { PlusOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import movieAvatar from "../../../assets/movie.jpg";
+import movieAvatar from "../assets/movie.jpg";
 
-const MovieCard = ({ title, posterPath, movieId ,releaseDate}: any) => {
+const MovieCard = ({ title, posterPath, movieId, releaseDate }: any) => {
+  console.log(movieId);
   const imagePath = posterPath
     ? `https://image.tmdb.org/t/p/w500${posterPath}`
     : movieAvatar;
@@ -36,11 +37,7 @@ const MovieCard = ({ title, posterPath, movieId ,releaseDate}: any) => {
           </Link>
         </div>
         <div className="mb-4">
-          <p
-            className="text-gray-500 "
-          >
-            {releaseDate?.slice(0,4)}
-          </p>
+          <p className="text-gray-500 ">{releaseDate?.slice(0, 4)}</p>
         </div>
         <button className="text-white font-semibold flex gap-2 justify-center bg-sky-950 items-center hover:bg-sky-900 rounded-sm py-1">
           <span>

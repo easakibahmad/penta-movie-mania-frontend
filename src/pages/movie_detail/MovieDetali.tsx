@@ -4,16 +4,21 @@ import {
   useGetMovieByIdQuery,
   useGetMovieCreditsQuery,
 } from "../../redux/features/movies/movieDetailApi";
-import MovieLoader from "../movie/movie_components/MovieLoader";
+import MovieLoader from "../../components/MovieLoader";
 import NotFoundMessage from "./movie_detail_component/NotFoundMessage";
 import CastCard from "./movie_detail_component/CastCard";
 import TitleDetails from "./movie_detail_component/TitleDetails";
-import Movie from "../movie/Movie";
 import { StarOutlined } from "@ant-design/icons";
 import React from "react";
+import RelatedMovies from "./movie_detail_component/RelatedMovies";
 
+interface IGenre {
+  id: number;
+  name: string;
+}
 const MovieDetail = () => {
   const { movieId } = useParams();
+  const propsIdMovie = movieId;
   const { data: movie, error, isLoading } = useGetMovieByIdQuery(movieId);
   const {
     data: credits,
@@ -38,7 +43,8 @@ const MovieDetail = () => {
   if (!movie) {
     return <NotFoundMessage></NotFoundMessage>;
   }
-  console.log(credits.crew);
+  const genreIds: number[] = movie.genres.map((genre: IGenre) => genre.id);
+
   return (
     <div className="px-4 pb-10 pt-6 bg-black text-white">
       <div className="grid grid-cols-3 items-center">
@@ -120,7 +126,7 @@ const MovieDetail = () => {
           })}
         </div>
       </div>
-      <Movie></Movie>
+      <RelatedMovies movieId={propsIdMovie} genres={genreIds}></RelatedMovies>
     </div>
   );
 };

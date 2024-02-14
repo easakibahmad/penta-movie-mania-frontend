@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import MovieCard from "./movie_components/MovieCard";
-import { IMovieData } from "./movie_interface/Types";
+import MovieCard from "../../components/MovieCard";
 import { useGetAllMoviesInRangeMutation } from "../../redux/features/movies/moviesApi";
-import MovieLoader from "./movie_components/MovieLoader";
-import { ArrowUpOutlined } from "@ant-design/icons";
+import MovieLoader from "../../components/MovieLoader";
 import { RootState } from "../../redux/store";
 import { useSelector } from "react-redux";
-import { formatDateString } from "./movie_utils/utils";
-import Title from "./movie_components/Title";
+import BackToTopButton from "../../components/BackToTopButton";
+import { IMovieData } from "../../types/Types";
+import { formatDateString } from "../../utils/Utils";
+import Title from "../../components/Title";
 
 const Movie = () => {
   const [getAllMoviesInRange, { data, error }] =
@@ -91,7 +91,7 @@ const Movie = () => {
             key={index}
             title={movie.title}
             posterPath={movie.poster_path}
-            movieId={ movie.id }
+            movieId={movie.id}
             releaseDate={movie.release_date}
           />
         ))}
@@ -103,16 +103,10 @@ const Movie = () => {
       )}
 
       {backToTopButton && (
-        <div className="flex justify-center">
-          <button
-            className="fixed top-10  bg-white text-black px-4 py-1 text-sm rounded-full shadow-lg transition-opacity duration-1000 ease-in-out hover:opacity-100 hover:bg-blue-500 hover:text-white"
-            onClick={scrollToTop}
-            style={{ opacity: backToTopButton ? 1 : 0 }}
-          >
-            <ArrowUpOutlined style={{ marginRight: "5px" }} />
-            Back to Top
-          </button>
-        </div>
+        <BackToTopButton
+          scrollToTop={scrollToTop}
+          backToTopButton={backToTopButton}
+        ></BackToTopButton>
       )}
     </div>
   );

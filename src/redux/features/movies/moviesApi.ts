@@ -27,8 +27,24 @@ const getMoviesApi = baseApi.injectEndpoints({
         },
       }),
     }),
+
+    getMoviesByGenresInRange: builder.mutation({
+      query: ({ genres, startDate, endDate }) => ({
+        url: "/discover/movie",
+        method: "GET",
+        params: {
+          api_key: "7139d17951e650bc10c901e57350fd65",
+          with_genres: genres.join(","),
+          "primary_release_date.gte": startDate.toISOString(),
+          "primary_release_date.lte": endDate.toISOString(),
+        },
+      }),
+    }),
   }),
 });
 
-export const { useGetMoviesByGenreMutation, useGetAllMoviesInRangeMutation } =
-  getMoviesApi;
+export const {
+  useGetMoviesByGenreMutation,
+  useGetAllMoviesInRangeMutation,
+  useGetMoviesByGenresInRangeMutation,
+} = getMoviesApi;
