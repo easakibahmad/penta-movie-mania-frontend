@@ -18,14 +18,13 @@ const Movie = () => {
   const [backToTopButton, setBackToTopButton] = useState(false); // State to control visibility of scroll button
 
   const dateRange = useSelector((state: RootState) => state.dateRange);
-
   useEffect(() => {
     const startDate = formatDateString(dateRange.dateRange.startDate);
     const endDate = formatDateString(dateRange.dateRange.endDate);
     console.log(startDate, endDate);
 
     getAllMoviesInRange({ startDate, endDate, page }); // Fetch movies by release date range and page
-  }, [getAllMoviesInRange, page, dateRange]);
+  }, [getAllMoviesInRange, page]);
 
   useEffect(() => {
     if (error) {
@@ -74,6 +73,7 @@ const Movie = () => {
     }); // Scroll to the top when back to button is clicked
   };
 
+  console.log(loadedData);
   return (
     <div className="px-4 pb-10 pt-6 bg-black text-white">
       <div className="flex gap-2 items-center mb-6">
@@ -93,6 +93,7 @@ const Movie = () => {
             key={index}
             title={movie.title}
             posterPath={movie.poster_path}
+            movieId={movie.id}
           />
         ))}
       </div>

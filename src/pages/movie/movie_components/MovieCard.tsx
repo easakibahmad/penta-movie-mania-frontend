@@ -3,7 +3,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import movieAvatar from "../../../assets/movie.jpg";
 
-const MovieCard = ({ title, posterPath }: any) => {
+const MovieCard = ({ title, posterPath, movieId }: any) => {
   const imagePath = posterPath
     ? `https://image.tmdb.org/t/p/w500${posterPath}`
     : movieAvatar;
@@ -14,7 +14,7 @@ const MovieCard = ({ title, posterPath }: any) => {
       style={{ backgroundColor: "#1a1a1a" }}
     >
       <div className="transition-transform duration-300 text-white transform scale-100 hover:scale-105">
-        <Link to="#">
+        <Link to={`/movies/${movieId}`}>
           <img
             src={imagePath}
             alt={posterPath ? "ImageNotFound" : "DefaultImage"}
@@ -27,7 +27,10 @@ const MovieCard = ({ title, posterPath }: any) => {
         style={{ backgroundColor: "#1a1a1a" }}
       >
         <div className="font-bold mb-6">
-          <Link to="#" className="text-blue-500 hover:underline">
+          <Link
+            to={`/movies/${movieId}`}
+            className="text-blue-500 hover:underline"
+          >
             {title}
           </Link>
         </div>
