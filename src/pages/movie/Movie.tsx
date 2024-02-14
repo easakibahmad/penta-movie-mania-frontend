@@ -7,6 +7,7 @@ import { ArrowUpOutlined } from "@ant-design/icons";
 import { RootState } from "../../redux/store";
 import { useSelector } from "react-redux";
 import { formatDateString } from "./movie_utils/utils";
+import Title from "./movie_components/Title";
 
 const Movie = () => {
   const [getAllMoviesInRange, { data, error }] =
@@ -76,10 +77,7 @@ const Movie = () => {
   console.log(loadedData);
   return (
     <div className="px-4 pb-10 pt-6 bg-black text-white">
-      <div className="flex gap-2 items-center mb-6">
-        <div className="h-8 w-1 bg-yellow-400"></div>
-        <h1 className="text-xl font-bold">Latest Movies Just For You</h1>
-      </div>
+      <Title title="Latest Movies Just For You"></Title>
       {!loadedData?.length && (
         <div className="flex justify-center">
           <div className="py-10" style={{ height: "100vh" }}>

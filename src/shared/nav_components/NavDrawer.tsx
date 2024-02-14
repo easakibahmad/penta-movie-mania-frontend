@@ -4,9 +4,9 @@ import { Drawer, Space } from "antd";
 import { LiaBarsSolid } from "react-icons/lia";
 import { Link } from "react-router-dom";
 import { FaHome, FaBookmark, FaFilm } from "react-icons/fa";
-import { Dropdown, DatePicker } from "antd";
-import { DownOutlined, SearchOutlined  } from "@ant-design/icons";
-import { dropdownMenuNav, twoMonthsAgo, yesterday } from "./NavUtils";
+import {  DatePicker } from "antd";
+import {  SearchOutlined } from "@ant-design/icons";
+import { twoMonthsAgo, yesterday } from "./NavUtils";
 const { RangePicker } = DatePicker;
 import logo from "../../assets/logo.png";
 
@@ -66,15 +66,12 @@ const NavDrawer = () => {
             </Link>
           </li>
           <li>
-            <Dropdown overlay={dropdownMenuNav}>
-              <a
-                className="ant-dropdown-link flex items-center hover:text-blue-500"
-                onClick={(e) => e.preventDefault()}
-              >
-                <FaFilm className="mr-1" /> Genre{" "}
-                <DownOutlined className="ml-2" style={{ fontSize: "10px" }} />
-              </a>
-            </Dropdown>
+            <a
+              className="ant-dropdown-link flex items-center hover:text-blue-500"
+              onClick={(e) => e.preventDefault()}
+            >
+              <FaFilm className="mr-1" /> Genre
+            </a>
           </li>
           <li>
             <Link
@@ -87,7 +84,9 @@ const NavDrawer = () => {
           </li>
         </ul>
         <div className="grid grid-cols-1 mt-3">
-          <span className="-mb-2 flex items-center"><SearchOutlined className="mr-1" /> Search Movies by Date Range</span>
+          <span className="-mb-2 flex items-center">
+            <SearchOutlined className="mr-1" /> Search Movies by Date Range
+          </span>
           <RangePicker
             className="text-blue-500 mt-4"
             style={{ border: "1px solid #ccc", borderRadius: "5px" }}

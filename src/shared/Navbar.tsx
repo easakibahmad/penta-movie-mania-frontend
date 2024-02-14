@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link } from "react-router-dom";
 import { FaHome, FaBookmark, FaFilm } from "react-icons/fa";
-import { Dropdown, DatePicker } from "antd";
-import { DownOutlined } from "@ant-design/icons";
-import { dropdownMenuNav, yesterday } from "./nav_components/NavUtils";
+import { DatePicker } from "antd";
+import { yesterday } from "./nav_components/NavUtils";
 const { RangePicker } = DatePicker;
 import logo from "../assets/logo.png";
 import { SearchOutlined } from "@ant-design/icons";
@@ -45,15 +44,12 @@ const Navbar = () => {
           </Link>
         </li>
         <li>
-          <Dropdown overlay={dropdownMenuNav}>
-            <a
-              className={`ant-dropdown-link ${navItemsStyle} ${linkHoverClass}`}
-              onClick={(e) => e.preventDefault()}
-            >
-              <FaFilm className="mr-1" /> Genre{" "}
-              <DownOutlined className="ml-2" style={{ fontSize: "10px" }} />
-            </a>
-          </Dropdown>
+          <a
+            className="ant-dropdown-link flex items-center hover:text-blue-500"
+            onClick={(e) => e.preventDefault()}
+          >
+            <FaFilm className="mr-1" /> Genre
+          </a>
         </li>
         <li>
           <Link
