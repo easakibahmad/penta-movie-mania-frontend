@@ -49,30 +49,30 @@ const MovieDetail = () => {
   }
   const genreIds: number[] = movie.genres.map((genre: IGenre) => genre.id);
   const handleNext = () => {
-    setStartIndex(startIndex + 4);
+    setStartIndex(startIndex + 6);
   };
 
   const handlePrev = () => {
-    setStartIndex(startIndex - 4);
+    setStartIndex(startIndex - 6);
   };
   const handleNextCrew = () => {
-    setCastIndex(castIndex + 4);
+    setCastIndex(castIndex + 6);
   };
 
   const handlePrevCrew = () => {
-    setCastIndex(castIndex - 4);
+    setCastIndex(castIndex - 6);
   };
   return (
     <div className="px-4 pb-10 pt-6 bg-black text-white">
-      <div className="grid grid-cols-3 items-center">
-        <div className="flex justify-center">
+      <div className="grid grid-cols-3 items-center gap-4">
+        <div className="flex justify-end">
           <img
             src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
             alt={movie.title}
             className="h-96"
           />
         </div>
-        <div className="col-span-2 grid grid-cols-1 gap-4">
+        <div className="col-span-2 grid grid-cols-1 gap-4 mr-36">
           <h2 className="text-4xl font-bold">{movie.title}</h2>
           <p className="text-sm">{movie.overview}</p>
           <p className="flex justify-start gap-4">
@@ -118,15 +118,15 @@ const MovieDetail = () => {
         {credits?.cast?.length != 0 ? (
           <div className="grid grid-cols-10 items-center gap-3">
             <Button
-              className={`px-3 py-1 text-white rounded-md disabled:bg-gray-600 flex items-center justify-center gap-1 `}
+              className={`px-3 py-1 text-white rounded-md disabled:text-white flex items-center justify-center gap-1 `}
               onClick={handlePrev}
               disabled={startIndex === 0}
             >
               <ArrowLeftOutlined /> Prev
             </Button>
-            <div className="flex justify-between col-span-8 gap-6">
+            <div className="grid grid-cols-6 col-span-8 gap-6">
               {credits?.cast
-                .slice(startIndex, startIndex + 4)
+                .slice(startIndex, startIndex + 6)
                 .map((item: any, index: any) => {
                   return (
                     <CastCard
@@ -139,9 +139,9 @@ const MovieDetail = () => {
                 })}
             </div>
             <Button
-              className={`px-3 py-1 text-white rounded-md disabled:bg-gray-600 flex items-center justify-center gap-1 `}
+              className={`px-3 py-1 text-white rounded-md disabled:text-white flex items-center justify-center gap-1 `}
               onClick={handleNext}
-              disabled={startIndex + 4 >= credits.cast.length}
+              disabled={startIndex + 6 >= credits.cast.length}
             >
               <ArrowRightOutlined />
               Next
@@ -156,15 +156,15 @@ const MovieDetail = () => {
         {credits?.crew?.length != 0 ? (
           <div className="grid grid-cols-10 items-center gap-3">
             <Button
-              className={`px-3 py-1 text-white rounded-md disabled:bg-gray-600 flex items-center justify-center gap-1 `}
+              className={`px-3 py-1 text-white rounded-md disabled:text-white flex items-center justify-center gap-1 `}
               onClick={handlePrevCrew}
               disabled={castIndex === 0}
             >
               <ArrowLeftOutlined /> Prev
             </Button>
-            <div className="flex justify-between col-span-8 gap-6">
+            <div className="grid grid-cols-6 col-span-8 gap-6">
               {credits?.crew
-                .slice(castIndex, castIndex + 4)
+                .slice(castIndex, castIndex + 6)
                 .map((item: any, index: any) => {
                   return (
                     <CastCard
@@ -177,9 +177,9 @@ const MovieDetail = () => {
                 })}
             </div>
             <Button
-              className={`px-3 py-1 text-white rounded-md disabled:bg-gray-600 flex items-center justify-center gap-1 `}
+              className={`px-3 py-1 text-white rounded-md disabled:text-white flex items-center justify-center gap-1 `}
               onClick={handleNextCrew}
-              disabled={castIndex + 4 >= credits.crew.length}
+              disabled={castIndex + 6 >= credits.crew.length}
             >
               <ArrowRightOutlined />
               Next
