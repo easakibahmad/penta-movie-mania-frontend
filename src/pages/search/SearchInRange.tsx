@@ -2,26 +2,26 @@ import { useEffect, useState } from "react";
 import MovieCard from "../../components/MovieCard";
 import { useGetAllMoviesInRangeMutation } from "../../redux/features/movies/moviesApi";
 import MovieLoader from "../../components/MovieLoader";
-import { RootState } from "../../redux/store";
-import { useSelector } from "react-redux";
 import BackToTopButton from "../../components/BackToTopButton";
 import { IMovieData } from "../../types/Types";
-import { formatDateString } from "../../utils/Utils";
 import Title from "../../components/Title";
+import { useParams } from "react-router-dom";
 
-const Movie = () => {
+const SearchInRange = () => {
   const [getAllMoviesInRange, { data, error }] =
     useGetAllMoviesInRangeMutation(); // Call the useGetAllMoviesInRangeMutation hook to fetch movies
+  const { searchInRange } = useParams();
+  const [startDateString, endDateString] = searchInRange!.split("&");
+  const startDate = new Date(startDateString);
+  const endDate = new Date(endDateString);
+  console.log(startDate, endDate);
 
   const [page, setPage] = useState(1);
   const [loadedData, setLoadedData] = useState<IMovieData[]>([]);
   const [loading, setLoading] = useState(false);
   const [backToTopButton, setBackToTopButton] = useState(false); // State to control visibility of scroll button
 
-  const dateRange = useSelector((state: RootState) => state.dateRange);
   useEffect(() => {
-    const startDate = formatDateString(dateRange.dateRange.startDate);
-    const endDate = formatDateString(dateRange.dateRange.endDate);
     console.log(startDate, endDate);
 
     getAllMoviesInRange({ startDate, endDate, page }); // Fetch movies by release date range and page
@@ -76,7 +76,12 @@ const Movie = () => {
 
   return (
     <div className="px-4 pb-10 pt-6 bg-black text-white">
-      <Title title="Latest Movies Just For You"></Title>
+      <Title
+        title={`Find the newest movies released between ${startDateString?.slice(
+          0,
+          16
+        )} and ${endDateString?.slice(0, 16)}`}
+      ></Title>
       {loadedData?.length > 0 ? null : (
         <div className="flex justify-center">
           <div className="py-10" style={{ height: "100vh" }}>
@@ -111,4 +116,4 @@ const Movie = () => {
   );
 };
 
-export default Movie;
+export default SearchInRange;

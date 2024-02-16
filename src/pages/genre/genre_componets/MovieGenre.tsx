@@ -7,6 +7,9 @@ import {
 import MovieLoader from "../../../components/MovieLoader";
 import { IMovieData } from "../../../types/Types";
 import MovieCard from "../../../components/MovieCard";
+import { RightOutlined } from "@ant-design/icons";
+
+import { Link } from "react-router-dom";
 
 type TGenreProps = {
   genreId: number;
@@ -52,11 +55,38 @@ const MovieGenre = ({ genreId, genreName }: TGenreProps) => {
 
   return (
     <div className="px-4 pb-6 pt-6 bg-black text-white">
-      <div className="flex gap-2 items-center mb-6">
-        <div className="h-8 w-1 bg-yellow-400"></div>
-        <h1 className="text-xl font-bold">Latest {genreName} </h1>
+      <div>
+        <div className="flex justify-between items-center mb-4">
+          <div className="flex gap-2 items-center">
+            <div className="h-8 w-1 bg-yellow-400"></div>
+            <Link
+              to={`/genre/${genreId + "&" + genreName}`}
+              onClick={() => {
+                 window.scrollTo({
+                   top: 0,
+                   behavior: "smooth",
+                 });
+              }}
+              className="hover:text-blue-600 flex items-center gap-1 hover:underline text-xl font-bold"
+            >
+              Latest {genreName}
+            </Link>
+          </div>
+          <Link
+            to={`/genre/${genreId + "&" + genreName}`}
+            onClick={() => {
+               window.scrollTo({
+                 top: 0,
+                 behavior: "smooth",
+               });
+            }}
+            className="text-blue-600 flex items-center gap-1 hover:underline text-md font-bold"
+          >
+            Explore More <RightOutlined />
+          </Link>
+        </div>
       </div>
-      {!loadedData?.length && (
+      {loadedData?.length > 0 ? null : (
         <div className="flex justify-center">
           <div className="py-10" style={{ height: "100vh" }}>
             <MovieLoader />
@@ -64,7 +94,7 @@ const MovieGenre = ({ genreId, genreName }: TGenreProps) => {
         </div>
       )}
       <div className="grid grid-cols-6 gap-6">
-        {loadedData.map((movie: IMovieData, index: number) => (
+        {loadedData?.map((movie: IMovieData, index: number) => (
           <MovieCard
             key={index}
             title={movie.title}

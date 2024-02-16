@@ -69,7 +69,7 @@ const RelatedMovies = ({ genres, movieId }: any) => {
   return (
     <div className="px-4 pb-10 pt-6 bg-black text-white">
       <Title title="Related Movies"></Title>
-      {!loadedData?.length && (
+      {loadedData?.length > 0 ? null : (
         <div className="flex justify-center">
           <div className="py-10" style={{ height: "100vh" }}>
             <MovieLoader />
