@@ -4,9 +4,9 @@ import {
   twoMonthsAgo,
   yesterday,
 } from "../../../shared/nav_components/NavUtils";
-import GenreCard from "./GenreCard";
 import MovieLoader from "../../../components/MovieLoader";
 import { IMovieData } from "../../../types/Types";
+import MovieCard from "../../../components/MovieCard";
 
 type TGenreProps = {
   genreId: number;
@@ -65,7 +65,7 @@ const MovieGenre = ({ genreId, genreName }: TGenreProps) => {
       )}
       <div className="grid grid-cols-6 gap-6">
         {loadedData.map((movie: IMovieData, index: number) => (
-          <GenreCard
+          <MovieCard
             key={index}
             title={movie.title}
             posterPath={movie.poster_path}

@@ -15,7 +15,12 @@ const MovieCard = ({ title, posterPath, movieId, releaseDate }: any) => {
       style={{ backgroundColor: "#1a1a1a" }}
     >
       <div className="transition-transform duration-300 text-white transform scale-100 hover:scale-105">
-        <Link to={`/movies/${movieId}`}>
+        <Link
+          to={`/movies/${movieId}`}
+          onClick={() => {
+            setTimeout(() => window.location.reload(), 500);
+          }}
+        >
           <img
             src={imagePath}
             alt={posterPath ? "ImageNotFound" : "DefaultImage"}
@@ -31,6 +36,9 @@ const MovieCard = ({ title, posterPath, movieId, releaseDate }: any) => {
         <div className="font-bold mb-2">
           <Link
             to={`/movies/${movieId}`}
+            onClick={() => {
+              setTimeout(() => window.location.reload(), 500);
+            }}
             className="text-blue-500 hover:underline"
           >
             {title}

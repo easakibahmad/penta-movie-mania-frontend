@@ -33,12 +33,18 @@ const RelatedMovies = ({ genres, movieId }: any) => {
       console.error("Error fetching movies:", error);
     }
   }, [error]);
+useEffect(() => {
+  if (data && data.results) {
+    const filteredMovies = data.results.filter(
+      (movie: IMovieData) => Number(movie.id) !== Number(movieId)
+    );
+    setLoadedData(filteredMovies);
+  }
+}, [data, movieId]);
 
-  useEffect(() => {
-    if (data && data.results) {
-      setLoadedData(data.results); // Update loadedData with newly fetched data
-    }
-  }, [data]);
+
+
+  console.log(loadedData);
 
   const handleScroll = () => {
     const scrollTop =
@@ -76,17 +82,15 @@ const RelatedMovies = ({ genres, movieId }: any) => {
         </div>
       )}
       <div className="grid grid-cols-6 gap-6">
-        {loadedData
-          .filter((movie: IMovieData) => movie.id !== movieId) // Filter out movies with matching IDs
-          .map((movie: IMovieData, index: number) => (
-            <MovieCard
-              key={index}
-              title={movie.title}
-              posterPath={movie.poster_path}
-              movieId={movie.id}
-              releaseDate={movie.release_date}
-            />
-          ))}
+        {loadedData?.map((movie: IMovieData, index: number) => (
+          <MovieCard
+            key={index}
+            title={movie.title}
+            posterPath={movie.poster_path}
+            movieId={movie.id}
+            releaseDate={movie.release_date}
+          />
+        ))}
       </div>
 
       {backToTopButton && (
