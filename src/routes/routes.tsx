@@ -5,6 +5,7 @@ import MovieDetail from "../pages/movie_detail/MovieDetali";
 import Genre from "../pages/genre/Genre";
 import SearchInRange from "../pages/search/SearchInRange";
 import IndividualGenre from "../pages/individual_genre/IndividualGenre";
+import WatchList from "../pages/watch_list/WatchList";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: "genre",
         element: <Genre></Genre>,
+      },
+      {
+        path: "watchlist",
+        element: <WatchList></WatchList>,
       },
     ],
   },

@@ -13,6 +13,11 @@ import { RootState } from "../redux/store";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const watchlistLength = useAppSelector(
+    (state: RootState) => state.watchList.watchlist
+  );
+
+  console.log(watchlistLength);
   const dateRange = useAppSelector((state: RootState) => state.dateRange);
   console.log(dateRange);
 
@@ -61,20 +66,16 @@ const Navbar = () => {
             <FaFilm className="mr-1" /> Genre
           </Link>
         </li>
-        {/* <li>
-          <a
-            className="ant-dropdown-link flex items-center hover:text-blue-500"
-            onClick={(e) => e.preventDefault()}
-          >
-            <FaFilm className="mr-1" /> Genre
-          </a>
-        </li> */}
+
         <li>
           <Link
             to="/watchlist"
             className={`${navItemsStyle} ${linkHoverClass}`}
           >
             <FaBookmark className="mr-2" /> Watchlist
+            <span className="text-green-500 font-bold text-md mb-2 ml-1">
+              {watchlistLength != 0 && `(${watchlistLength})`}
+            </span>
           </Link>
         </li>
       </ul>

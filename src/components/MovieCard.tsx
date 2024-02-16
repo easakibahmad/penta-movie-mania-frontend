@@ -1,9 +1,31 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { PlusOutlined } from "@ant-design/icons";
+import { useState } from "react";
+import { PlusOutlined, CheckOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import movieAvatar from "../assets/movie.jpg";
+import { useDispatch } from "react-redux";
+import { setWatchlist } from "../redux/features/watchlist/watchListSlice";
 
 const MovieCard = ({ title, posterPath, movieId, releaseDate }: any) => {
+  const [inWatchlist, setInWatchlist] = useState<boolean>(
+    localStorage.getItem("watchlist")?.includes(movieId) || false
+  );
+  const dispatch = useDispatch();
+
+  const toggleWatchlist = () => {
+    let watchlist: string[] = JSON.parse(
+      localStorage.getItem("watchlist") || "[]"
+    );
+    if (!inWatchlist) {
+      watchlist.push(movieId);
+    } else {
+      watchlist = watchlist.filter((id) => id !== movieId);
+    }
+    localStorage.setItem("watchlist", JSON.stringify(watchlist));
+    setInWatchlist(!inWatchlist);
+    dispatch(setWatchlist(watchlist?.length));
+  };
+
   const imagePath = posterPath
     ? `https://image.tmdb.org/t/p/w500${posterPath}`
     : movieAvatar;
@@ -24,7 +46,6 @@ const MovieCard = ({ title, posterPath, movieId, releaseDate }: any) => {
             src={imagePath}
             alt={posterPath ? "ImageNotFound" : "DefaultImage"}
             className="w-full h-72 transition-transform duration-300 transform scale-100 hover:scale-105"
-            // style={{ height: "320px" }}
           />
         </Link>
       </div>
@@ -46,10 +67,11 @@ const MovieCard = ({ title, posterPath, movieId, releaseDate }: any) => {
         <div className="mb-4">
           <p className="text-gray-500 ">{releaseDate?.slice(0, 4)}</p>
         </div>
-        <button className="text-white font-semibold flex gap-2 justify-center bg-sky-950 items-center hover:bg-sky-900 rounded-sm py-1">
-          <span>
-            <PlusOutlined />
-          </span>
+        <button
+          className="text-white  font-semibold flex gap-2 justify-center bg-sky-950 items-center hover:bg-sky-900 rounded-sm py-1"
+          onClick={toggleWatchlist}
+        >
+          <span>{inWatchlist ? <CheckOutlined /> : <PlusOutlined />}</span>
           Watchlist
         </button>
       </div>
