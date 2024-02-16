@@ -13,7 +13,6 @@ import MovieCard from "../../../components/MovieCard";
 import BackToTopButton from "../../../components/BackToTopButton";
 
 const RelatedMovies = ({ genres, movieId }: any) => {
-  console.log("Related: ", movieId);
   const [getMoviesByGenresInRange, { data, error }] =
     useGetMoviesByGenresInRangeMutation(); // Call the useGetMoviesByGenresInRangeMutation hook to fetch movies
 
@@ -33,18 +32,14 @@ const RelatedMovies = ({ genres, movieId }: any) => {
       console.error("Error fetching movies:", error);
     }
   }, [error]);
-useEffect(() => {
-  if (data && data.results) {
-    const filteredMovies = data.results.filter(
-      (movie: IMovieData) => Number(movie.id) !== Number(movieId)
-    );
-    setLoadedData(filteredMovies);
-  }
-}, [data, movieId]);
-
-
-
-  console.log(loadedData);
+  useEffect(() => {
+    if (data && data.results) {
+      const filteredMovies = data.results.filter(
+        (movie: IMovieData) => Number(movie.id) !== Number(movieId)
+      );
+      setLoadedData(filteredMovies);
+    }
+  }, [data, movieId]);
 
   const handleScroll = () => {
     const scrollTop =

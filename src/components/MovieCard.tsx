@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import movieAvatar from "../assets/movie.jpg";
 
 const MovieCard = ({ title, posterPath, movieId, releaseDate }: any) => {
-  console.log(movieId);
   const imagePath = posterPath
     ? `https://image.tmdb.org/t/p/w500${posterPath}`
     : movieAvatar;
