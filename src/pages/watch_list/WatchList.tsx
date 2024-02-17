@@ -43,7 +43,7 @@ const WatchList = () => {
           Your watchlist is empty now!
         </p>
       )}
-      <div className="grid lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 grid-cols-1 gap-6">
+      <div className="grid lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-6">
         {watchlist?.map((item: any) => (
           <WatchListCard
             title={item?.movie?.title}

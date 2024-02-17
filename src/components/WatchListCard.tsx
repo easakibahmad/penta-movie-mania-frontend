@@ -51,7 +51,7 @@ const WatchListCard = ({
           <img
             src={imagePath}
             alt={posterPath ? "ImageNotFound" : "DefaultImage"}
-            className="w-full h-72 transition-transform duration-300 transform scale-100 hover:scale-105"
+            className="w-full sm:h-72 h-56 transition-transform duration-300 transform scale-100 hover:scale-105"
           />
         </Link>
       </div>
@@ -71,7 +71,7 @@ const WatchListCard = ({
                 }, 500);
               }
             }}
-            className="text-blue-500 hover:underline"
+            className="text-blue-500 text-sm sm:text-md hover:underline"
           >
             {title}
           </Link>
@@ -81,7 +81,7 @@ const WatchListCard = ({
         </div>
         <button
           onClick={handleRemoveFromWatchlist}
-          className="text-white  font-semibold flex gap-2 justify-center bg-sky-950 items-center hover:bg-sky-900 rounded-sm py-1 text-sm"
+          className="text-white md:text-md text-sm  font-semibold flex gap-2 justify-center bg-sky-950 items-center hover:bg-sky-900 rounded-sm py-1 "
         >
           <span>
             <DeleteOutlined />

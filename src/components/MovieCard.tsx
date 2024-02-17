@@ -58,7 +58,7 @@ const MovieCard = ({ title, posterPath, movieId, releaseDate }: any) => {
           <img
             src={imagePath}
             alt={posterPath ? "ImageNotFound" : "DefaultImage"}
-            className="w-full h-72 transition-transform duration-300 transform scale-100 hover:scale-105"
+            className="w-full sm:h-72 h-56 transition-transform duration-300 transform scale-100 hover:scale-105"
           />
         </Link>
       </div>
@@ -78,7 +78,7 @@ const MovieCard = ({ title, posterPath, movieId, releaseDate }: any) => {
                 }, 500);
               }
             }}
-            className="text-blue-500 hover:underline"
+            className="text-blue-500 hover:underline md:text-md text-sm"
           >
             {title}
           </Link>
@@ -87,7 +87,7 @@ const MovieCard = ({ title, posterPath, movieId, releaseDate }: any) => {
           <p className="text-gray-500 ">{releaseDate?.slice(0, 4)}</p>
         </div>
         <button
-          className="text-white  font-semibold flex gap-2 justify-center bg-sky-950 items-center hover:bg-sky-900 rounded-sm py-1"
+          className="text-white md:text-md text-sm  font-semibold flex gap-2 justify-center bg-sky-950 items-center hover:bg-sky-900 rounded-sm py-1"
           onClick={toggleWatchlist}
         >
           <span>{inWatchlist ? <CheckOutlined /> : <PlusOutlined />}</span>

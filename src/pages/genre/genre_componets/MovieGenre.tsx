@@ -40,7 +40,7 @@ const MovieGenre = ({ genreId, genreName }: TGenreProps) => {
                   }, 500);
                 }
               }}
-              className="hover:text-blue-600 flex items-center gap-1 hover:underline text-xl font-bold"
+              className="hover:text-blue-600 sm:text-xl text-md flex items-center gap-1 hover:underline  font-bold"
             >
               Latest {genreName}
             </Link>
@@ -56,7 +56,7 @@ const MovieGenre = ({ genreId, genreName }: TGenreProps) => {
                 }, 500);
               }
             }}
-            className="text-blue-600 flex items-center gap-1 hover:underline text-md font-bold"
+            className="text-blue-600 text-sm flex items-center gap-1 hover:underline sm:text-md font-bold"
           >
             Explore More <RightOutlined />
           </Link>
@@ -69,7 +69,7 @@ const MovieGenre = ({ genreId, genreName }: TGenreProps) => {
           </div>
         </div>
       )}
-      <div className="grid lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 grid-cols-1 gap-6">
+      <div className="grid lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-6">
         {loadedData?.map((movie: IMovieData, index: number) => (
           <MovieCard
             key={index}

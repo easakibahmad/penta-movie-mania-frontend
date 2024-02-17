@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Link } from "react-router-dom";
 import { FaHome, FaBookmark, FaFilm } from "react-icons/fa";
 import { DatePicker } from "antd";
@@ -32,7 +31,6 @@ const Navbar = () => {
   ]);
   const handleDateRangeChange = (
     dates: [TDate, TDate],
-    dateStrings: [string, string]
   ): void => {
     if (dates && dates.length === 2) {
       setSelectedDates(dates);

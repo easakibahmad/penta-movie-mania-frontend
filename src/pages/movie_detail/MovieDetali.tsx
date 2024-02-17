@@ -6,13 +6,11 @@ import {
 } from "../../redux/features/movies/movieDetailApi";
 import MovieLoader from "../../components/MovieLoader";
 import NotFoundMessage from "./movie_detail_component/NotFoundMessage";
-import CastCard from "./movie_detail_component/CastCard";
 import TitleDetails from "./movie_detail_component/TitleDetails";
 import { StarOutlined } from "@ant-design/icons";
 import React, { useState } from "react";
 import RelatedMovies from "./movie_detail_component/RelatedMovies";
-import { ArrowLeftOutlined, ArrowRightOutlined } from "@ant-design/icons";
-import { Button } from "antd";
+import GroupCard from "../../components/GroupCard";
 
 interface IGenre {
   id: number;
@@ -28,7 +26,7 @@ const MovieDetail = () => {
     isLoading: isCreditsLoading,
   } = useGetMovieCreditsQuery(movieId);
   const [startIndex, setStartIndex] = useState(0);
-  const [castIndex, setCastIndex] = useState(0);
+  const [crewIndex, setCrewIndex] = useState(0);
 
   if (isLoading || isCreditsLoading) {
     return (
@@ -56,11 +54,11 @@ const MovieDetail = () => {
     setStartIndex(startIndex - 6);
   };
   const handleNextCrew = () => {
-    setCastIndex(castIndex + 6);
+    setCrewIndex(crewIndex + 6);
   };
 
   const handlePrevCrew = () => {
-    setCastIndex(castIndex - 6);
+    setCrewIndex(crewIndex - 6);
   };
   return (
     <div className="px-4 pb-10 pt-6 bg-black text-white">
@@ -69,14 +67,16 @@ const MovieDetail = () => {
           <img
             src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
             alt={movie.title}
-            className="h-96"
+            className="sm:h-96 h-72"
           />
         </div>
-        <div className="col-span-2 grid grid-cols-1 gap-4 mr-36">
-          <h2 className="text-4xl font-bold">{movie.title}</h2>
+        <div className="col-span-2 grid grid-cols-1 sm:gap-4 gap-2 md:mr-36 sm:mr-10 mr-0">
+          <h2 className="md:text-4xl sm:text-xl text-md font-bold">
+            {movie.title}
+          </h2>
           <p className="text-sm">{movie.overview}</p>
-          <p className="flex justify-start gap-4">
-            <span className="font-bold"> IMDb Link:</span>
+          <p className="flex justify-start items-center gap-4">
+            <span className="font-bold text-sm md:text-md"> IMDb Link:</span>
             <a
               href={`https://www.imdb.com/title/${movie.imdb_id}`}
               target="_blank"
@@ -87,7 +87,7 @@ const MovieDetail = () => {
             </a>
           </p>
           <p className="flex justify-start gap-4">
-            <span className="font-bold">Rating:</span>{" "}
+            <span className="font-bold text-sm md:text-md">Rating:</span>{" "}
             <span>
               <span className="text-yellow-500 mr-1">
                 <StarOutlined />
@@ -96,9 +96,9 @@ const MovieDetail = () => {
             </span>
           </p>
           {movie.genres && (
-            <div className="flex justify-start gap-4">
-              <h3 className="font-bold">Genres:</h3>
-              <ul className="flex justify-start gap-2">
+            <div className="flex justify-start items-center gap-4">
+              <h3 className="font-bold text-sm md:text-md">Genres:</h3>
+              <ul className="flex justify-start items-center gap-2">
                 {movie.genres.map(
                   (genre: { id: number; name: string }, index: number) => (
                     <React.Fragment key={genre.id}>
@@ -115,79 +115,22 @@ const MovieDetail = () => {
 
       <div className="my-16">
         <TitleDetails title="Meet the Cast"></TitleDetails>
-        {credits?.cast?.length != 0 ? (
-          <div className="grid grid-cols-10 items-center gap-3">
-            <Button
-              className={`px-3 py-1 text-white rounded-md disabled:text-white flex items-center justify-center gap-1 `}
-              onClick={handlePrev}
-              disabled={startIndex === 0}
-            >
-              <ArrowLeftOutlined /> Prev
-            </Button>
-            <div className="grid grid-cols-6 col-span-8 gap-6">
-              {credits?.cast
-                .slice(startIndex, startIndex + 6)
-                .map((item: any, index: any) => {
-                  return (
-                    <CastCard
-                      key={index}
-                      actorName={item.original_name}
-                      characterName={item.character}
-                      imageUrl={item.profile_path}
-                    />
-                  );
-                })}
-            </div>
-            <Button
-              className={`px-3 py-1 text-white rounded-md disabled:text-white flex items-center justify-center gap-1 `}
-              onClick={handleNext}
-              disabled={startIndex + 6 >= credits.cast.length}
-            >
-              <ArrowRightOutlined />
-              Next
-            </Button>
-          </div>
-        ) : (
-          <p className="text-red-500">Not found cast</p>
-        )}
+
+        <GroupCard
+          type={credits?.cast}
+          handlePrev={handlePrev}
+          startIndex={startIndex}
+          handleNext={handleNext}
+        ></GroupCard>
       </div>
       <div className={`my-16`}>
-        <TitleDetails title="Meet the Crew"></TitleDetails>{" "}
-        {credits?.crew?.length != 0 ? (
-          <div className="grid grid-cols-10 items-center gap-3">
-            <Button
-              className={`px-3 py-1 text-white rounded-md disabled:text-white flex items-center justify-center gap-1 `}
-              onClick={handlePrevCrew}
-              disabled={castIndex === 0}
-            >
-              <ArrowLeftOutlined /> Prev
-            </Button>
-            <div className="grid grid-cols-6 col-span-8 gap-6">
-              {credits?.crew
-                .slice(castIndex, castIndex + 6)
-                .map((item: any, index: any) => {
-                  return (
-                    <CastCard
-                      key={index}
-                      actorName={item.original_name}
-                      characterName={item.known_for_department}
-                      imageUrl={item.profile_path}
-                    />
-                  );
-                })}
-            </div>
-            <Button
-              className={`px-3 py-1 text-white rounded-md disabled:text-white flex items-center justify-center gap-1 `}
-              onClick={handleNextCrew}
-              disabled={castIndex + 6 >= credits.crew.length}
-            >
-              <ArrowRightOutlined />
-              Next
-            </Button>
-          </div>
-        ) : (
-          <p className="text-red-500">Not found crew</p>
-        )}
+        <TitleDetails title="Meet the Crew"></TitleDetails>
+        <GroupCard
+          type={credits?.crew}
+          handlePrev={handlePrevCrew}
+          startIndex={crewIndex}
+          handleNext={handleNextCrew}
+        ></GroupCard>
       </div>
       <RelatedMovies movieId={propsIdMovie} genres={genreIds}></RelatedMovies>
     </div>

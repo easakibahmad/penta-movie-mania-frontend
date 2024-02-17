@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from "react";
 import { Drawer, Space } from "antd";
 import { LiaBarsSolid } from "react-icons/lia";
@@ -16,7 +15,11 @@ import { RootState } from "../../redux/store";
 import { Dayjs } from "dayjs";
 
 type TDate = Dayjs | Date | null;
-const NavDrawer = () => {
+const NavDrawer = () =>
+{
+  const watchlistLength = useAppSelector(
+    (state: RootState) => state.watchList.watchlist
+  );
   const [open, setOpen] = useState(false);
   const dateRange = useAppSelector((state: RootState) => state.dateRange);
   const dispatch = useDispatch();
@@ -27,7 +30,6 @@ const NavDrawer = () => {
 
   const handleDateRangeChange = (
     dates: [TDate, TDate],
-    dateStrings: [string, string]
   ) => {
     if (dates && dates.length === 2) {
       setSelectedDates(dates);
@@ -115,6 +117,9 @@ const NavDrawer = () => {
               onClick={handleLinkClick}
             >
               <FaBookmark className="mr-2" /> Watchlist
+              <span className="text-green-500 font-bold text-md mb-2 ml-1">
+                {watchlistLength != 0 && `(${watchlistLength})`}
+              </span>
             </Link>
           </li>
         </ul>
