@@ -3,12 +3,22 @@
 import { Link } from "react-router-dom";
 import movieAvatar from "../assets/movie.jpg";
 import { DeleteOutlined } from "@ant-design/icons";
+import { useDispatch } from "react-redux";
+import { removeFromWatchlist } from "../redux/features/watchlist/addAndRemoveWatchlist";
+import { toast } from "sonner";
 
 const WatchListCard = ({ title, posterPath, movieId, releaseDate }: any) => {
+  const dispatch = useDispatch();
+
   const imagePath = posterPath
     ? `https://image.tmdb.org/t/p/w500${posterPath}`
     : movieAvatar;
 
+  const handleRemoveFromWatchlist = () => {
+    toast.warning("Removed from watchlist");
+    dispatch(removeFromWatchlist(movieId));
+    window.location.reload();
+  };
   return (
     <div
       className="grid rounded-sm overflow-hidden"
@@ -58,12 +68,15 @@ const WatchListCard = ({ title, posterPath, movieId, releaseDate }: any) => {
         <div className="mb-4">
           <p className="text-gray-500 ">{releaseDate?.slice(0, 4)}</p>
         </div>
-        <button className="text-white  font-semibold flex gap-2 justify-center bg-sky-950 items-center hover:bg-sky-900 rounded-sm py-1 text-sm">
+        <button
+          onClick={handleRemoveFromWatchlist}
+          className="text-white  font-semibold flex gap-2 justify-center bg-sky-950 items-center hover:bg-sky-900 rounded-sm py-1 text-sm"
+        >
           <span>
             <DeleteOutlined />
           </span>
           Remove
-        </button> 
+        </button>
       </div>
     </div>
   );

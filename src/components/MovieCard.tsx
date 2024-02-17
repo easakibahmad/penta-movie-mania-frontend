@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { setWatchlist } from "../redux/features/watchlist/watchListSlice";
 import { toast } from "sonner";
 import { useGetMovieByIdQuery } from "../redux/features/movies/movieDetailApi";
+import { addToWatchlist } from "../redux/features/watchlist/addAndRemoveWatchlist";
 
 const MovieCard = ({ title, posterPath, movieId, releaseDate }: any) => {
   const { data: movie } = useGetMovieByIdQuery(movieId);
@@ -20,6 +21,8 @@ const MovieCard = ({ title, posterPath, movieId, releaseDate }: any) => {
     let watchlist: any = JSON.parse(localStorage.getItem("watchlist") || "[]");
     if (!inWatchlist) {
       watchlist.push({ movieId, movie });
+      dispatch(addToWatchlist({ movieId, movie }));
+
       toast.success(`${title} added to watchlist`);
     } else {
       watchlist = watchlist.filter((item: any) => item.movieId !== movieId);

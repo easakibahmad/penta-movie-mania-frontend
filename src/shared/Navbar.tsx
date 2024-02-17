@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FaHome, FaBookmark, FaFilm } from "react-icons/fa";
-import { Button, DatePicker } from "antd";
+import { DatePicker } from "antd";
 import { yesterday } from "./nav_components/NavUtils";
 const { RangePicker } = DatePicker;
 import logo from "../assets/logo.png";
@@ -10,39 +10,48 @@ import { setDateRange } from "../redux/features/date_range/dateRangeSlice";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../redux/hooks";
 import { RootState } from "../redux/store";
+import { useState } from "react";
 
 const Navbar = () => {
-  const navigate = useNavigate();
   const watchlistLength = useAppSelector(
     (state: RootState) => state.watchList.watchlist
   );
 
-  console.log(watchlistLength);
   const dateRange = useAppSelector((state: RootState) => state.dateRange);
-  console.log(dateRange);
 
   const navItemsStyle = "flex items-center";
   const linkHoverClass = "hover:text-blue-500"; // Define a CSS class for link hover effect
 
   const dispatch = useDispatch();
+
+  const [selectedDates, setSelectedDates] = useState<
+    [Date | null, Date | null]
+  >([null, null]);
   const handleDateRangeChange = (dates: any) => {
     if (dates && dates.length === 2) {
+      setSelectedDates(dates);
       const [startDate, endDate] = dates.map((date: any) => date.toString());
       dispatch(setDateRange({ startDate, endDate }));
+    } else {
+      setSelectedDates([null, null]);
     }
   };
 
   const disabledDate = (current: any) => {
     return current && current > yesterday;
   };
-  const handleClick = () => {
-    navigate(
-      `/movie/${
-        dateRange.dateRange.startDate + "&" + dateRange.dateRange.endDate
-      }`
-    );
-    setTimeout(() => window.location.reload(), 500);
+  const handleClick = (event: any) => {
+    event.preventDefault();
+    const href = event.currentTarget.getAttribute("href");
+    if (href) {
+      setTimeout(() => {
+        window.location.href = href;
+      }, 500);
+    }
   };
+
+  const isSearchDisabled = !selectedDates[0] || !selectedDates[1];
+
   return (
     <nav
       style={{ backgroundColor: "#36454F	", height: "74px" }}
@@ -95,9 +104,21 @@ const Navbar = () => {
             onChange={handleDateRangeChange}
             disabledDate={disabledDate}
           />
-          <Button className="text-white" onClick={handleClick}>
+
+          <Link
+            to={`/movie/${
+              dateRange.dateRange.startDate + "&" + dateRange.dateRange.endDate
+            }`}
+            // onClick={handleClick}
+            className={`text-white border-2 px-3 py-1 rounded-full hover:border-blue-500 hover:text-blue-500 ${
+              isSearchDisabled && "pointer-events-none"
+            }`}
+            onClick={
+              isSearchDisabled ? (event) => event.preventDefault() : handleClick
+            }
+          >
             Search
-          </Button>
+          </Link>
         </div>
       </div>
     </nav>

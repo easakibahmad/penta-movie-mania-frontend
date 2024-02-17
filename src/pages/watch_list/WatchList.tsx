@@ -11,7 +11,6 @@ const WatchList = () => {
   const watchlistData = localStorage.getItem("watchlist");
   const watchlist = watchlistData ? JSON.parse(watchlistData) : [];
   const [backToTopButton, setBackToTopButton] = useState(false); // State to control visibility of scroll button
-
   useEffect(() => {
     const length = watchlist.length;
     dispatch(setWatchlist(length));
@@ -27,32 +26,32 @@ const WatchList = () => {
       setBackToTopButton(false);
     }
   };
-    
-    
+
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-      const scrollToTop = () => {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        }); // Scroll to the top when back to button is clicked
-      };
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    }); // Scroll to the top when back to button is clicked
+  };
   return (
-    <div
-      className="px-4 pb-10 pt-6 bg-black text-white"
-    >
+    <div className="px-4 pb-10 pt-6 bg-black text-white">
       <Title title="Your Watchlist"></Title>
+      {watchlist?.length === 0 && (
+        <p className="text-xl font-bold text-red-600">Your watchlist is empty now!</p>
+      )}
       <div className="grid grid-cols-6 gap-6">
         {watchlist?.map((item: any) => (
           <WatchListCard
-            title={item.movie.title}
-            posterPath={item.movie.poster_path}
-            movieId={item.movie.id}
-            releaseDate={item.movie.release_date}
+            title={item?.movie?.title}
+            posterPath={item?.movie?.poster_path}
+            movieId={item?.movie?.id}
+            releaseDate={item?.movie?.release_date}
           ></WatchListCard>
         ))}
       </div>

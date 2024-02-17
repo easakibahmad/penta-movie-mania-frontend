@@ -61,11 +61,14 @@ const MovieGenre = ({ genreId, genreName }: TGenreProps) => {
             <div className="h-8 w-1 bg-yellow-400"></div>
             <Link
               to={`/genre/${genreId + "&" + genreName}`}
-              onClick={() => {
-                 window.scrollTo({
-                   top: 0,
-                   behavior: "smooth",
-                 });
+              onClick={(event) => {
+                event.preventDefault();
+                const href = event.currentTarget.getAttribute("href");
+                if (href) {
+                  setTimeout(() => {
+                    window.location.href = href;
+                  }, 500);
+                }
               }}
               className="hover:text-blue-600 flex items-center gap-1 hover:underline text-xl font-bold"
             >
@@ -74,11 +77,14 @@ const MovieGenre = ({ genreId, genreName }: TGenreProps) => {
           </div>
           <Link
             to={`/genre/${genreId + "&" + genreName}`}
-            onClick={() => {
-               window.scrollTo({
-                 top: 0,
-                 behavior: "smooth",
-               });
+            onClick={(event) => {
+              event.preventDefault();
+              const href = event.currentTarget.getAttribute("href");
+              if (href) {
+                setTimeout(() => {
+                  window.location.href = href;
+                }, 500);
+              }
             }}
             className="text-blue-600 flex items-center gap-1 hover:underline text-md font-bold"
           >

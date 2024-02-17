@@ -11,10 +11,10 @@ const SearchInRange = () => {
   const [getAllMoviesInRange, { data, error }] =
     useGetAllMoviesInRangeMutation(); // Call the useGetAllMoviesInRangeMutation hook to fetch movies
   const { searchInRange } = useParams();
+
   const [startDateString, endDateString] = searchInRange!.split("&");
   const startDate = new Date(startDateString);
   const endDate = new Date(endDateString);
-  console.log(startDate, endDate);
 
   const [page, setPage] = useState(1);
   const [loadedData, setLoadedData] = useState<IMovieData[]>([]);
@@ -77,10 +77,9 @@ const SearchInRange = () => {
   return (
     <div className="px-4 pb-10 pt-6 bg-black text-white">
       <Title
-        title={`Find the newest movies released between ${startDateString?.slice(
-          0,
-          16
-        )} and ${endDateString?.slice(0, 16)}`}
+        title={`Find the newest movies released between ${startDate
+          ?.toString()
+          .slice(0, 16)} and ${endDate?.toString().slice(0, 16)}`}
       ></Title>
       {loadedData?.length > 0 ? null : (
         <div className="flex justify-center">
