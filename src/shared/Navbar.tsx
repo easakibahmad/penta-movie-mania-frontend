@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Link } from "react-router-dom";
 import { FaHome, FaBookmark, FaFilm } from "react-icons/fa";
 import { DatePicker } from "antd";
@@ -11,7 +11,9 @@ import { useDispatch } from "react-redux";
 import { useAppSelector } from "../redux/hooks";
 import { RootState } from "../redux/store";
 import { useState } from "react";
+import { Dayjs } from "dayjs";
 
+type TDate = Dayjs | Date | null;
 const Navbar = () => {
   const watchlistLength = useAppSelector(
     (state: RootState) => state.watchList.watchlist
@@ -19,28 +21,36 @@ const Navbar = () => {
 
   const dateRange = useAppSelector((state: RootState) => state.dateRange);
 
-  const navItemsStyle = "flex items-center";
-  const linkHoverClass = "hover:text-blue-500"; // Define a CSS class for link hover effect
+  const navItemsStyle: string = "flex items-center";
+  const linkHoverClass: string = "hover:text-blue-500"; // Define a CSS class for link hover effect
 
   const dispatch = useDispatch();
 
-  const [selectedDates, setSelectedDates] = useState<
-    [Date | null, Date | null]
-  >([null, null]);
-  const handleDateRangeChange = (dates: any) => {
+  const [selectedDates, setSelectedDates] = useState<[TDate, TDate]>([
+    null,
+    null,
+  ]);
+  const handleDateRangeChange = (
+    dates: [TDate, TDate],
+    dateStrings: [string, string]
+  ): void => {
     if (dates && dates.length === 2) {
       setSelectedDates(dates);
-      const [startDate, endDate] = dates.map((date: any) => date.toString());
+      const [startDate, endDate] = dates.map(
+        (date: TDate) => date?.toString() ?? ""
+      );
       dispatch(setDateRange({ startDate, endDate }));
     } else {
       setSelectedDates([null, null]);
     }
   };
 
-  const disabledDate = (current: any) => {
+  const disabledDate = (current: Date | Dayjs): boolean => {
     return current && current > yesterday;
   };
-  const handleClick = (event: any) => {
+  const handleClick = (
+    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ): void => {
     event.preventDefault();
     const href = event.currentTarget.getAttribute("href");
     if (href) {
@@ -50,7 +60,7 @@ const Navbar = () => {
     }
   };
 
-  const isSearchDisabled = !selectedDates[0] || !selectedDates[1];
+  const isSearchDisabled: boolean = !selectedDates[0] || !selectedDates[1];
 
   return (
     <nav

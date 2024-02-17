@@ -1,11 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from "react";
 import { Drawer, Space } from "antd";
 import { LiaBarsSolid } from "react-icons/lia";
 import { Link } from "react-router-dom";
 import { FaHome, FaBookmark, FaFilm } from "react-icons/fa";
-import {  DatePicker } from "antd";
-import {  SearchOutlined } from "@ant-design/icons";
+import { DatePicker } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
 import { yesterday } from "./NavUtils";
 const { RangePicker } = DatePicker;
 import logo from "../../assets/logo.png";
@@ -13,29 +13,39 @@ import { useDispatch } from "react-redux";
 import { setDateRange } from "../../redux/features/date_range/dateRangeSlice";
 import { useAppSelector } from "../../redux/hooks";
 import { RootState } from "../../redux/store";
+import { Dayjs } from "dayjs";
 
+type TDate = Dayjs | Date | null;
 const NavDrawer = () => {
   const [open, setOpen] = useState(false);
   const dateRange = useAppSelector((state: RootState) => state.dateRange);
   const dispatch = useDispatch();
-   const [selectedDates, setSelectedDates] = useState<
-     [Date | null, Date | null]
-   >([null, null]);
+  const [selectedDates, setSelectedDates] = useState<[TDate, TDate]>([
+    null,
+    null,
+  ]);
 
-   const handleDateRangeChange = (dates: any) => {
-     if (dates && dates.length === 2) {
-       setSelectedDates(dates);
-       const [startDate, endDate] = dates.map((date: any) => date.toString());
-       dispatch(setDateRange({ startDate, endDate }));
-     } else {
-       setSelectedDates([null, null]);
-     }
-   };
+  const handleDateRangeChange = (
+    dates: [TDate, TDate],
+    dateStrings: [string, string]
+  ) => {
+    if (dates && dates.length === 2) {
+      setSelectedDates(dates);
+      const [startDate, endDate] = dates.map(
+        (date: TDate) => date?.toString() ?? ""
+      );
+      dispatch(setDateRange({ startDate, endDate }));
+    } else {
+      setSelectedDates([null, null]);
+    }
+  };
 
-  const disabledDate = (current: any) => {
+  const disabledDate = (current: Date | Dayjs) => {
     return current && current > yesterday;
   };
-  const handleClick = (event: any) => {
+  const handleClick = (
+    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ): void => {
     event.preventDefault();
     const href = event.currentTarget.getAttribute("href");
     if (href) {
@@ -45,7 +55,7 @@ const NavDrawer = () => {
     }
   };
 
-  const isSearchDisabled = !selectedDates[0] || !selectedDates[1];
+  const isSearchDisabled: boolean = !selectedDates[0] || !selectedDates[1];
 
   const onClose = () => {
     setOpen(false);
@@ -54,7 +64,6 @@ const NavDrawer = () => {
   const handleLinkClick = () => {
     setOpen(false);
   };
-
 
   return (
     <>
