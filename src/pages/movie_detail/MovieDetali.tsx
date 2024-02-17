@@ -64,8 +64,8 @@ const MovieDetail = () => {
   };
   return (
     <div className="px-4 pb-10 pt-6 bg-black text-white">
-      <div className="grid grid-cols-3 items-center gap-4">
-        <div className="flex justify-end">
+      <div className="grid md:grid-cols-3 grid-cols-1 items-center gap-4">
+        <div className="flex md:justify-end justify-center">
           <img
             src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
             alt={movie.title}

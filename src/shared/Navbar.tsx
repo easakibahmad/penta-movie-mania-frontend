@@ -110,9 +110,9 @@ const Navbar = () => {
               dateRange.dateRange.startDate + "&" + dateRange.dateRange.endDate
             }`}
             // onClick={handleClick}
-            className={`text-white border-2 px-3 py-1 rounded-full hover:border-blue-500 hover:text-blue-500 ${
+            className={` border-2 px-3 py-1 rounded-full ${
               isSearchDisabled && "pointer-events-none"
-            }`}
+            } ${!isSearchDisabled && "border-blue-500 text-blue-500"}`}
             onClick={
               isSearchDisabled ? (event) => event.preventDefault() : handleClick
             }

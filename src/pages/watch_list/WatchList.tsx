@@ -43,9 +43,11 @@ const WatchList = () => {
     <div className="px-4 pb-10 pt-6 bg-black text-white">
       <Title title="Your Watchlist"></Title>
       {watchlist?.length === 0 && (
-        <p className="text-xl font-bold text-red-600">Your watchlist is empty now!</p>
+        <p className="text-xl font-bold text-red-600">
+          Your watchlist is empty now!
+        </p>
       )}
-      <div className="grid grid-cols-6 gap-6">
+      <div className="grid lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 grid-cols-1 gap-6">
         {watchlist?.map((item: any) => (
           <WatchListCard
             title={item?.movie?.title}
