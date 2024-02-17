@@ -22,7 +22,6 @@ const Movie = () => {
   useEffect(() => {
     const startDate = formatDateString(dateRange.dateRange.startDate);
     const endDate = formatDateString(dateRange.dateRange.endDate);
-    console.log(startDate, endDate);
 
     getAllMoviesInRange({ startDate, endDate, page }); // Fetch movies by release date range and page
   }, [getAllMoviesInRange, page]);

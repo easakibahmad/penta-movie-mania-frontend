@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import genres from "./genre_utils/GenreData";
 import MovieGenre from "./genre_componets/MovieGenre";
 import BackToTopButton from "../../components/BackToTopButton";
+import { scrollToTop } from "../../utils/Utils";
 
 const Genre = () => {
   const [backToTopButton, setBackToTopButton] = useState(false); // State to control visibility of scroll button
@@ -24,12 +25,6 @@ const Genre = () => {
     };
   }, []);
 
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    }); // Scroll to the top when back to button is clicked
-  };
   return (
     <div className="grid grid-cols-1 gap-6 bg-black">
       {genres.map((item) => (

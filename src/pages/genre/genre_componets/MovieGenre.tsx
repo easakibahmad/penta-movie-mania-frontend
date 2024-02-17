@@ -1,27 +1,28 @@
 import { useEffect, useState } from "react";
 import { useGetMoviesByGenreMutation } from "../../../redux/features/movies/moviesApi";
-import {
-  twoMonthsAgo,
-  yesterday,
-} from "../../../shared/nav_components/NavUtils";
 import MovieLoader from "../../../components/MovieLoader";
 import { IMovieData } from "../../../types/Types";
 import MovieCard from "../../../components/MovieCard";
 import { RightOutlined } from "@ant-design/icons";
 
 import { Link } from "react-router-dom";
+import { useAppSelector } from "../../../redux/hooks";
+import { RootState } from "../../../redux/store";
+import { formatDateString } from "../../../utils/Utils";
 
 type TGenreProps = {
   genreId: number;
   genreName: string;
 };
 const MovieGenre = ({ genreId, genreName }: TGenreProps) => {
+  const dateRange = useAppSelector((state: RootState) => state.dateRange);
+
   const [getMoviesByGenre, { data, error }] = useGetMoviesByGenreMutation();
   const [loadedData, setLoadedData] = useState<IMovieData[]>([]);
 
   useEffect(() => {
-    const startDate = new Date(twoMonthsAgo);
-    const endDate = new Date(yesterday);
+    const startDate = formatDateString(dateRange.dateRange.startDate);
+    const endDate = formatDateString(dateRange.dateRange.endDate);
 
     getMoviesByGenre({ startDate, endDate, genreId });
   }, [getMoviesByGenre]);

@@ -30,3 +30,9 @@ export function formatDateString(inputString: string): Date {
 
   return new Date(year, month, day, hours, minutes, seconds);
 }
+export const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  }); 
+};
