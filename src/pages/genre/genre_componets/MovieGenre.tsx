@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useGetMoviesByGenreMutation } from "../../../redux/features/movies/moviesApi";
 import MovieLoader from "../../../components/MovieLoader";
 import { IMovieData } from "../../../types/Types";
@@ -6,53 +5,23 @@ import MovieCard from "../../../components/MovieCard";
 import { RightOutlined } from "@ant-design/icons";
 
 import { Link } from "react-router-dom";
-import { useAppSelector } from "../../../redux/hooks";
-import { RootState } from "../../../redux/store";
-import { formatDateString } from "../../../utils/Utils";
+
+import { useShuffledMoviesByGenre } from "../../../custom_hooks/useShuffleMoviesByGenre";
 
 type TGenreProps = {
   genreId: number;
   genreName: string;
 };
 const MovieGenre = ({ genreId, genreName }: TGenreProps) => {
-  const dateRange = useAppSelector((state: RootState) => state.dateRange);
-
   const [getMoviesByGenre, { data, error }] = useGetMoviesByGenreMutation();
-  const [loadedData, setLoadedData] = useState<IMovieData[]>([]);
-
-  useEffect(() => {
-    const startDate = formatDateString(dateRange.dateRange.startDate);
-    const endDate = formatDateString(dateRange.dateRange.endDate);
-
-    getMoviesByGenre({ startDate, endDate, genreId });
-  }, [getMoviesByGenre]);
-
-  useEffect(() => {
-    if (error) {
-      console.error("Error fetching movies:", error);
-    }
-  }, [error]);
-
-  useEffect(() => {
-    if (data && data.results) {
-      const shuffledResults = shuffleArray(data.results); // Shuffle the array of movie results
-
-      const limitedResults = shuffledResults.slice(0, 6); // Select the first five shuffled movies
-      setLoadedData(limitedResults);
-    }
-  }, [data]);
-
-  const shuffleArray = (array: IMovieData[]) => {
-    const shuffledArray = [...array];
-    for (let i = shuffledArray.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffledArray[i], shuffledArray[j]] = [
-        shuffledArray[j],
-        shuffledArray[i],
-      ];
-    }
-    return shuffledArray;
-  };
+  const limit = 6;
+  const { loadedData } = useShuffledMoviesByGenre(
+    genreId,
+    limit,
+    getMoviesByGenre,
+    data,
+    error
+  );
 
   return (
     <div className="px-4 pb-6 pt-6 bg-black text-white">

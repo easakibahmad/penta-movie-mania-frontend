@@ -1,73 +1,24 @@
-import { useEffect, useState } from "react";
 import MovieCard from "../../components/MovieCard";
-import { useGetMoviesByGenreMutation } from "../../redux/features/movies/moviesApi";
 import MovieLoader from "../../components/MovieLoader";
-import { RootState } from "../../redux/store";
-import { useSelector } from "react-redux";
 import BackToTopButton from "../../components/BackToTopButton";
 import { IMovieData } from "../../types/Types";
-import { formatDateString, scrollToTop } from "../../utils/Utils";
+import { scrollToTop } from "../../utils/Utils";
 import Title from "../../components/Title";
 import { useParams } from "react-router-dom";
+import { useFetchMoviesByGenre } from "../../custom_hooks/useFetchMoviesByGenre";
+import { useGetMoviesByGenreMutation } from "../../redux/features/movies/moviesApi";
 
 const IndividualGenre = () => {
+  const [getMoviesByGenre, { data, error }] = useGetMoviesByGenreMutation();
+
   const { genreNameId } = useParams();
   const [genreId, genreName] = genreNameId!.split("&");
-  const [getMoviesByGenre, { data, error }] = useGetMoviesByGenreMutation(); // Call the useGetAllMoviesInRangeMutation hook to fetch movies
-
-  const [page, setPage] = useState(1);
-  const [loadedData, setLoadedData] = useState<IMovieData[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [backToTopButton, setBackToTopButton] = useState(false); // State to control visibility of scroll button
-
-  const dateRange = useSelector((state: RootState) => state.dateRange);
-  useEffect(() => {
-    const startDate = formatDateString(dateRange.dateRange.startDate);
-    const endDate = formatDateString(dateRange.dateRange.endDate);
-    console.log(startDate, endDate);
-
-    getMoviesByGenre({ startDate, endDate, page, genreId }); // Fetch movies by release date range and page
-  }, [getMoviesByGenre, page, genreId]);
-
-  useEffect(() => {
-    if (error) {
-      console.error("Error fetching movies:", error);
-    }
-  }, [error]);
-
-  useEffect(() => {
-    if (data && data.results) {
-      setLoadedData((prevData) => [...prevData, ...data.results]); // Update loadedData with newly fetched data
-
-      setLoading(false);
-    }
-  }, [data]);
-
-  const handleScroll = () => {
-    const scrollTop =
-      document.documentElement.scrollTop || document.body.scrollTop; // Show/hide back to top button based on scroll position
-
-    if (scrollTop > 100) {
-      setBackToTopButton(true);
-    } else {
-      setBackToTopButton(false);
-    }
-
-    if (
-      window.innerHeight + scrollTop + 1 >=
-      document.documentElement.scrollHeight
-    ) {
-      setLoading(true);
-      setPage((prevPage) => prevPage + 1); // Load more movies if user reaches bottom
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  const { loadedData, loading, backToTopButton } = useFetchMoviesByGenre(
+    genreId,
+    getMoviesByGenre,
+    data,
+    error
+  );
 
   return (
     <div className="px-4 pb-10 pt-6 bg-black text-white">

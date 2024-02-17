@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import MovieCard from "../../components/MovieCard";
 import { useGetAllMoviesInRangeMutation } from "../../redux/features/movies/moviesApi";
 import MovieLoader from "../../components/MovieLoader";
@@ -7,66 +6,24 @@ import { IMovieData } from "../../types/Types";
 import Title from "../../components/Title";
 import { useParams } from "react-router-dom";
 import { scrollToTop } from "../../utils/Utils";
+import { useFetchAllMoviesInRange } from "../../custom_hooks/useFetchAllMoviesInRange";
 
 const SearchInRange = () => {
   const [getAllMoviesInRange, { data, error }] =
-    useGetAllMoviesInRangeMutation(); // Call the useGetAllMoviesInRangeMutation hook to fetch movies
+    useGetAllMoviesInRangeMutation();
   const { searchInRange } = useParams();
 
   const [startDateString, endDateString] = searchInRange!.split("&");
   const startDate: Date = new Date(startDateString);
   const endDate: Date = new Date(endDateString);
 
-  const [page, setPage] = useState(1);
-  const [loadedData, setLoadedData] = useState<IMovieData[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [backToTopButton, setBackToTopButton] = useState(false); // State to control visibility of scroll button
-
-  useEffect(() => {
-    console.log(startDate, endDate);
-
-    getAllMoviesInRange({ startDate, endDate, page }); // Fetch movies by release date range and page
-  }, [getAllMoviesInRange, page]);
-
-  useEffect(() => {
-    if (error) {
-      console.error("Error fetching movies:", error);
-    }
-  }, [error]);
-
-  useEffect(() => {
-    if (data && data.results) {
-      setLoadedData((prevData) => [...prevData, ...data.results]); // Update loadedData with newly fetched data
-
-      setLoading(false);
-    }
-  }, [data]);
-
-  const handleScroll = () => {
-    const scrollTop =
-      document.documentElement.scrollTop || document.body.scrollTop; // Show/hide back to top button based on scroll position
-
-    if (scrollTop > 100) {
-      setBackToTopButton(true);
-    } else {
-      setBackToTopButton(false);
-    }
-
-    if (
-      window.innerHeight + scrollTop + 1 >=
-      document.documentElement.scrollHeight
-    ) {
-      setLoading(true);
-      setPage((prevPage) => prevPage + 1); // Load more movies if user reaches bottom
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  const { loadedData, loading, backToTopButton } = useFetchAllMoviesInRange(
+    getAllMoviesInRange,
+    error,
+    data,
+    startDate,
+    endDate
+  );
 
   return (
     <div className="px-4 pb-10 pt-6 bg-black text-white">
