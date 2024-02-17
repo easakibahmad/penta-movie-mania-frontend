@@ -5,6 +5,7 @@ import { setWatchlist } from "../../redux/features/watchlist/watchListSlice";
 import Title from "../../components/Title";
 import WatchListCard from "../../components/WatchListCard";
 import BackToTopButton from "../../components/BackToTopButton";
+import { scrollToTop } from "../../utils/Utils";
 
 const WatchList = () => {
   const dispatch = useDispatch();
@@ -33,12 +34,7 @@ const WatchList = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    }); // Scroll to the top when back to button is clicked
-  };
+ 
   return (
     <div className="px-4 pb-10 pt-6 bg-black text-white">
       <Title title="Your Watchlist"></Title>

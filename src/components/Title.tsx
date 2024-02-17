@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-const Title = ({ title }: any) => {
+type TTitle = { title: string };
+const Title = ({ title }: TTitle) => {
   return (
     <div className="flex gap-2 items-center mb-6">
       <div className="h-8 w-1 bg-yellow-400"></div>

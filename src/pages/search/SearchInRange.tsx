@@ -6,6 +6,7 @@ import BackToTopButton from "../../components/BackToTopButton";
 import { IMovieData } from "../../types/Types";
 import Title from "../../components/Title";
 import { useParams } from "react-router-dom";
+import { scrollToTop } from "../../utils/Utils";
 
 const SearchInRange = () => {
   const [getAllMoviesInRange, { data, error }] =
@@ -13,8 +14,8 @@ const SearchInRange = () => {
   const { searchInRange } = useParams();
 
   const [startDateString, endDateString] = searchInRange!.split("&");
-  const startDate = new Date(startDateString);
-  const endDate = new Date(endDateString);
+  const startDate: Date = new Date(startDateString);
+  const endDate: Date = new Date(endDateString);
 
   const [page, setPage] = useState(1);
   const [loadedData, setLoadedData] = useState<IMovieData[]>([]);
@@ -66,13 +67,6 @@ const SearchInRange = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    }); // Scroll to the top when back to button is clicked
-  };
 
   return (
     <div className="px-4 pb-10 pt-6 bg-black text-white">

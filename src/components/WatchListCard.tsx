@@ -7,7 +7,18 @@ import { useDispatch } from "react-redux";
 import { removeFromWatchlist } from "../redux/features/watchlist/addAndRemoveWatchlist";
 import { toast } from "sonner";
 
-const WatchListCard = ({ title, posterPath, movieId, releaseDate }: any) => {
+type TWatchListCard = {
+  title: string;
+  movieId: number;
+  posterPath: string;
+  releaseDate: string;
+};
+const WatchListCard = ({
+  title,
+  posterPath,
+  movieId,
+  releaseDate,
+}: TWatchListCard) => {
   const dispatch = useDispatch();
 
   const imagePath = posterPath

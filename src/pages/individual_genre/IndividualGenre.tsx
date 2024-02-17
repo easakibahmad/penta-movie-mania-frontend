@@ -6,7 +6,7 @@ import { RootState } from "../../redux/store";
 import { useSelector } from "react-redux";
 import BackToTopButton from "../../components/BackToTopButton";
 import { IMovieData } from "../../types/Types";
-import { formatDateString } from "../../utils/Utils";
+import { formatDateString, scrollToTop } from "../../utils/Utils";
 import Title from "../../components/Title";
 import { useParams } from "react-router-dom";
 
@@ -68,13 +68,6 @@ const IndividualGenre = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    }); // Scroll to the top when back to button is clicked
-  };
 
   return (
     <div className="px-4 pb-10 pt-6 bg-black text-white">
