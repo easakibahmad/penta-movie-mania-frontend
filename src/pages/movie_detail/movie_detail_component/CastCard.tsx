@@ -7,7 +7,7 @@ const CastCard = ({ actorName, characterName, imageUrl }: TProps) => {
   return (
     <div
       className="grid grid-cols-1 shadow-xl p-2 gap-3 rounded-md"
-      style={{ backgroundColor: "#1a1a1a", height: "200px"}}
+      style={{ backgroundColor: "#1a1a1a", height: "200px", width: "150px" }}
     >
       <div className="flex justify-center">
         <img

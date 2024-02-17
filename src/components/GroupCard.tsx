@@ -15,7 +15,7 @@ const GroupCard = ({ type, handlePrev, startIndex, handleNext }: any) => {
           >
             <ArrowLeftOutlined /> Prev
           </Button>
-          <div className="grid grid-cols-6 col-span-8 gap-6">
+          <div className="grid grid-cols-6 col-span-8 gap-6 w-cover">
             {type
               .slice(startIndex, startIndex + 6)
               .map((item: any, index: any) => {
@@ -29,17 +29,17 @@ const GroupCard = ({ type, handlePrev, startIndex, handleNext }: any) => {
                 );
               })}
           </div>
-          <Button
-            className={`px-3 py-1 text-white rounded-md disabled:text-white flex items-center justify-center gap-1 `}
-            onClick={handleNext}
-            disabled={startIndex + 6 >= type.length}
-          >
-            <ArrowRightOutlined />
-            Next
-          </Button>
+            <Button
+              className={`px-3 py-1 text-white rounded-md disabled:text-white flex items-center justify-center gap-1 `}
+              onClick={handleNext}
+              disabled={startIndex + 6 >= type.length}
+            >
+              <ArrowRightOutlined />
+              Next
+            </Button>
         </div>
       ) : (
-        <p className="text-red-500">Not found {type}</p>
+        <p className="text-red-500">Not found </p>
       )}
     </>
   );

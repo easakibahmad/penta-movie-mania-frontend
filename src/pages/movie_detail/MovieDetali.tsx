@@ -11,6 +11,7 @@ import { StarOutlined } from "@ant-design/icons";
 import React, { useState } from "react";
 import RelatedMovies from "./movie_detail_component/RelatedMovies";
 import GroupCard from "../../components/GroupCard";
+import CastCard from "./movie_detail_component/CastCard";
 
 interface IGenre {
   id: number;
@@ -114,23 +115,60 @@ const MovieDetail = () => {
       </div>
 
       <div className="my-16">
-        <TitleDetails title="Meet the Cast"></TitleDetails>
-
-        <GroupCard
-          type={credits?.cast}
-          handlePrev={handlePrev}
-          startIndex={startIndex}
-          handleNext={handleNext}
-        ></GroupCard>
+        <div className="lg:flex hidden">
+          <TitleDetails title="Meet the Cast"></TitleDetails>
+        </div>
+        <div className="lg:hidden flex">
+          <TitleDetails title="Meet the Top Cast"></TitleDetails>
+        </div>
+        <div className="grid lg:hidden  md:grid-cols-4 sm:grid-cols-3 grid-cols-2 col-span-8 gap-6">
+          {credits?.cast.slice(0, 10).map((item: any, index: any) => {
+            return (
+              <CastCard
+                key={index}
+                actorName={item.original_name}
+                characterName={item.character}
+                imageUrl={item.profile_path}
+              />
+            );
+          })}
+        </div>
+        <div className="lg:flex hidden">
+          <GroupCard
+            type={credits?.cast}
+            handlePrev={handlePrev}
+            startIndex={startIndex}
+            handleNext={handleNext}
+          ></GroupCard>
+        </div>
       </div>
       <div className={`my-16`}>
-        <TitleDetails title="Meet the Crew"></TitleDetails>
-        <GroupCard
-          type={credits?.crew}
-          handlePrev={handlePrevCrew}
-          startIndex={crewIndex}
-          handleNext={handleNextCrew}
-        ></GroupCard>
+        <div className="lg:flex hidden">
+          <TitleDetails title="Meet the Crew"></TitleDetails>
+        </div>
+        <div className="lg:hidden flex">
+          <TitleDetails title="Meet the Top Crew"></TitleDetails>
+        </div>
+        <div className="grid lg:hidden  md:grid-cols-4 sm:grid-cols-3 grid-cols-2 col-span-8 gap-6">
+          {credits?.crew.slice(0, 10).map((item: any, index: any) => {
+            return (
+              <CastCard
+                key={index}
+                actorName={item.original_name}
+                characterName={item.character}
+                imageUrl={item.profile_path}
+              />
+            );
+          })}
+        </div>
+        <div className="lg:flex hidden">
+          <GroupCard
+            type={credits?.crew}
+            handlePrev={handlePrevCrew}
+            startIndex={crewIndex}
+            handleNext={handleNextCrew}
+          ></GroupCard>
+        </div>
       </div>
       <RelatedMovies movieId={propsIdMovie} genres={genreIds}></RelatedMovies>
     </div>
